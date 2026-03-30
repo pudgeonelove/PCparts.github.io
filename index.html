@@ -7,6 +7,11 @@
 <style>
 body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0f2f; color: #f8f8f8; }
 header { background: linear-gradient(90deg, #1e40af, #3b82f6); padding: 20px; text-align: center; font-size: 28px; font-weight: bold; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: sticky; top:0; z-index:100; }
+header::after { content:''; display:block; height:4px; width:100%; background: linear-gradient(to right, #facc15, #22c55e, #3b82f6); margin-top:5px; border-radius:2px; }
+.tabs { display:flex; justify-content:center; margin-top:20px; }
+.tab-button { background:#1e293b; color:#f8f8f8; border:none; padding:12px 25px; margin:0 10px; border-radius:10px; cursor:pointer; font-weight:bold; transition:0.3s; }
+.tab-button:hover { background:#3b82f6; transform: scale(1.05); }
+.tab-button.active { background:#2563eb; color:#fff; }
 .container { padding: 20px; max-width: 1200px; margin: auto; }
 h2 { margin-top: 40px; color: #60a5fa; border-bottom: 2px solid #3b82f6; display: inline-block; padding-bottom: 5px; font-size: 24px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; }
@@ -26,15 +31,16 @@ input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 
 ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 5px; }
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 @keyframes slideIn { from {transform: translateY(-50px); opacity:0;} to {transform: translateY(0); opacity:1;} }
-header::after { content:''; display:block; height:4px; width:100%; background: linear-gradient(to right, #facc15, #22c55e, #3b82f6); margin-top:5px; border-radius:2px; }
-.card button::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; border-radius:8px; background: rgba(255,255,255,0.1); opacity:0; transition: opacity 0.3s; }
-.card button:hover::before { opacity:1; }
 </style>
 </head>
 <body>
-
 <header>PC Parts - Каталог комплектующих</header>
+<div class="tabs">
+<button class="tab-button active" onclick="showTab(1)">Каталог</button>
+<button class="tab-button" onclick="showTab(2)">Вторая вкладка</button>
+</div>
 <div class="container">
+<div id="tab1">
 <h2>Видеокарты</h2>
 <div class="grid">
 <div class="card"><h3>RTX 3060</h3><p class="price">25 000 сом</p><button onclick="buy('RTX 3060')">Купить</button></div>
@@ -68,6 +74,10 @@ header::after { content:''; display:block; height:4px; width:100%; background: l
 <div class="card"><h3>500W Bronze</h3><p class="price">2 500 сом</p><button onclick="buy('500W Bronze')">Купить</button></div>
 </div>
 </div>
+<div id="tab2" style="display:none;">
+<h2>Вторая вкладка пока пустая</h2>
+</div>
+</div>
 <div class="modal" id="modal">
 <div class="modal-content">
 <h3>Оформление заказа</h3>
@@ -91,6 +101,13 @@ window.onclick = function(e){
  if(e.target.id==='modal'){
   document.getElementById('modal').style.display='none';
  }
+}
+function showTab(n){
+ document.getElementById('tab1').style.display = n===1 ? 'block' : 'none';
+ document.getElementById('tab2').style.display = n===2 ? 'block' : 'none';
+ const buttons = document.getElementsByClassName('tab-button');
+ for(let i=0;i<buttons.length;i++) buttons[i].classList.remove('active');
+ buttons[n-1].classList.add('active');
 }
 </script>
 </body>
