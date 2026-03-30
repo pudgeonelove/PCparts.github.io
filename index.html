@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computers KG</title>
+<style>
+body { font-family: Arial; margin:0; background:#0f172a; color:white }
+header { background:#020617; padding:15px; text-align:center; font-size:24px }
+.container { padding:20px }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px }
+.card { background:#1e293b; padding:15px; border-radius:10px }
+button { background:#22c55e; border:none; padding:10px; cursor:pointer; border-radius:5px }
+button:hover { background:#16a34a }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center }
+.modal-content { background:white; color:black; padding:20px; border-radius:10px; width:300px }
+input { width:100%; padding:8px; margin:5px 0 }
+</style>
+</head>
+<body>
+
+<header>Computers KG - комплектующие</header>
+
+<div class="container">
+<h2>Видеокарты</h2>
+<div class="grid">
+<div class="card"><h3>RTX 3060</h3><p>25000 сом</p><button onclick="buy('RTX 3060')">Купить</button></div>
+<div class="card"><h3>GTX 1660 Ti</h3><p>15000 сом</p><button onclick="buy('GTX 1660 Ti')">Купить</button></div>
+<div class="card"><h3>RX 6600</h3><p>22000 сом</p><button onclick="buy('RX 6600')">Купить</button></div>
+</div>
+
+<h2>Процессоры</h2>
+<div class="grid">
+<div class="card"><h3>i5-10400F</h3><p>12000 сом</p><button onclick="buy('i5-10400F')">Купить</button></div>
+<div class="card"><h3>Ryzen 5 5600</h3><p>14000 сом</p><button onclick="buy('Ryzen 5 5600')">Купить</button></div>
+<div class="card"><h3>i7-12700K</h3><p>28000 сом</p><button onclick="buy('i7-12700K')">Купить</button></div>
+</div>
+
+<h2>Накопители</h2>
+<div class="grid">
+<div class="card"><h3>SSD 1TB NVMe</h3><p>6000 сом</p><button onclick="buy('SSD 1TB')">Купить</button></div>
+<div class="card"><h3>SSD 512GB</h3><p>3500 сом</p><button onclick="buy('SSD 512GB')">Купить</button></div>
+<div class="card"><h3>HDD 2TB</h3><p>4000 сом</p><button onclick="buy('HDD 2TB')">Купить</button></div>
+</div>
+
+<h2>Блоки питания</h2>
+<div class="grid">
+<div class="card"><h3>600W Bronze</h3><p>3000 сом</p><button onclick="buy('600W')">Купить</button></div>
+<div class="card"><h3>750W Gold</h3><p>5000 сом</p><button onclick="buy('750W')">Купить</button></div>
+<div class="card"><h3>850W Gold</h3><p>7000 сом</p><button onclick="buy('850W')">Купить</button></div>
+</div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Оформление заказа</h3>
+<p id="product"></p>
+<input placeholder="Имя">
+<input placeholder="Телефон">
+<input placeholder="Адрес">
+<button onclick="submitOrder()">Отправить</button>
+</div>
+</div>
+
+<script>
+function buy(product){
+ document.getElementById('modal').style.display='flex';
+ document.getElementById('product').innerText='Товар: '+product;
+}
+
+function submitOrder(){
+ alert('Заявка отправлена (имитация)');
+ document.getElementById('modal').style.display='none';
+}
+
+window.onclick=function(e){
+ if(e.target.id==='modal'){
+  document.getElementById('modal').style.display='none';
+ }
+}
+</script>
+
+</body>
+</html>
