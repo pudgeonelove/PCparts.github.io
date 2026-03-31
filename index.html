@@ -204,20 +204,20 @@
     <script>
         // База данных товаров (реалистичные цены в сомах)
         const products = [
-            { id: 1, name: "NVIDIA RTX 4060 8GB", category: "Видеокарты", price: 29500, img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400", desc: "Отличный выбор для Full HD гейминга на ультра настройках." },
-            { id: 2, name: "AMD Radeon RX 7600", category: "Видеокарты", price: 26000, img: "https://images.unsplash.com/photo-1591405351990-4726e331f141?w=400", desc: "Конкурент от красных. Отличная производительность за свои деньги." },
-            { id: 3, name: "NVIDIA RTX 4070 12GB", category: "Видеокарты", price: 56000, img: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400", desc: "Золотая середина для 2K гейминга с трассировкой лучей." },
-            
-            { id: 4, name: "Intel Core i5-13400F", category: "Процессоры", price: 16500, img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400", desc: "10 ядер, 16 потоков. Идеальный баланс для игр и работы." },
-            { id: 5, name: "AMD Ryzen 5 7600", category: "Процессоры", price: 18000, img: "https://images.unsplash.com/photo-1626218174358-7769486c4b79?w=400", desc: "Новый сокет AM5, высокая частота и крутой потенциал." },
-            
-            { id: 6, name: "Kingston NV2 1TB M.2", category: "Накопители", price: 5500, img: "https://images.unsplash.com/photo-1628557044797-f21a177c37ec?w=400", desc: "Быстрый NVMe SSD для мгновенной загрузки Windows и игр." },
-            { id: 7, name: "Samsung 980 PRO 1TB", category: "Накопители", price: 9500, img: "https://images.unsplash.com/photo-1597571063304-81f08191373b?w=400", desc: "Топовый SSD PCIe 4.0 со скоростью чтения до 7000 МБ/с." },
-            
-            { id: 8, name: "DeepCool PK750D 750W", category: "Блоки питания", price: 6500, img: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400", desc: "Надежный блок питания с сертификатом 80+ Bronze." },
-            { id: 9, name: "Corsair RM850e 850W", category: "Блоки питания", price: 11500, img: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?w=400", desc: "Полностью модульный, тихий и очень мощный (80+ Gold)." }
-        ];
-
+    { id: 1, name: "NVIDIA RTX 4060 8GB", category: "Видеокарты", price: 29500, img: "img/gpu_4060.jpg", desc: "Отличный выбор для Full HD гейминга на ультра настройках." },
+    { id: 2, name: "AMD Radeon RX 7600", category: "Видеокарты", price: 26000, img: "img/gpu_7600.jpg", desc: "Конкурент от красных. Отличная производительность за свои деньги." },
+    { id: 3, name: "NVIDIA RTX 4070 12GB", category: "Видеокарты", price: 56000, img: "img/gpu_4070.jpg", desc: "Золотая середина для 2K гейминга с трассировкой лучей." },
+    
+    { id: 4, name: "Intel Core i5-13400F", category: "Процессоры", price: 16500, img: "img/cpu_i5.jpg", desc: "10 ядер, 16 потоков. Идеальный баланс для игр и работы." },
+    { id: 5, name: "AMD Ryzen 5 7600", category: "Процессоры", price: 18000, img: "img/cpu_ryzen.jpg", desc: "Новый сокет AM5, высокая частота и крутой потенциал." },
+    
+    { id: 6, name: "Kingston NV2 1TB M.2", category: "Накопители", price: 5500, img: "img/ssd_knv2.jpg", desc: "Быстрый NVMe SSD для мгновенной загрузки Windows и игр." },
+    { id: 7, name: "Samsung 980 PRO 1TB", category: "Накопители", price: 9500, img: "img/ssd_980pro.jpg", desc: "Топовый SSD PCIe 4.0 со скоростью чтения до 7000 МБ/с." },
+    
+    { id: 8, name: "DeepCool PK750D 750W", category: "Блоки питания", price: 6500, img: "img/psu_deepcool.jpg", desc: "Надежный блок питания с сертификатом 80+ Bronze." },
+    { id: 9, name: "Corsair RM850e 850W", category: "Блоки питания", price: 11500, img: "img/psu_corsair.jpg", desc: "Полностью модульный, тихий и очень мощный (80+ Gold)." }
+];
+        
         let cart = [];
         let currentCategory = 'Все';
 
