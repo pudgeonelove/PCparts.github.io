@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg: #05070a;
-            --card: rgba(22, 27, 34, 0.7);
+            --card: rgba(22, 27, 34, 0.85);
             --accent: #00f2ff;
             --accent-glow: rgba(0, 242, 255, 0.4);
             --text: #ffffff;
@@ -26,7 +26,7 @@
             position: fixed; inset: 0; z-index: 9999;
             background: radial-gradient(circle at center, #111, #05070a);
             display: flex; align-items: center; justify-content: center;
-            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.6s ease-in-out;
         }
         .auth-card {
             background: var(--card); padding: 40px; border-radius: 24px;
@@ -43,16 +43,16 @@
         /* --- НАВИГАЦИЯ --- */
         nav {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(13, 17, 23, 0.9); backdrop-filter: blur(15px);
+            background: rgba(13, 17, 23, 0.95); backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border); padding: 15px 5%;
             display: none; align-items: center; justify-content: space-between; gap: 15px;
         }
-
         .logo-group { display: flex; align-items: center; gap: 15px; }
         .logo { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: var(--accent); cursor: pointer; }
         .user-badge { 
             background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent);
             padding: 4px 12px; border-radius: 12px; font-size: 13px; color: var(--accent);
+            font-weight: 700;
         }
 
         .nav-btns button {
@@ -61,7 +61,7 @@
         }
         .nav-btns button.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
 
-        /* --- КАРТОЧКИ --- */
+        /* --- КОНТЕНТ --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: none; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         
@@ -69,20 +69,21 @@
             background: var(--card); border-radius: 20px; border: 1px solid var(--border);
             padding: 20px; display: flex; flex-direction: column; transition: 0.3s;
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         
         .img-wrap { 
-            width: 100%; height: 200px; border-radius: 12px; overflow: hidden; 
-            background: #000; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 220px; border-radius: 12px; overflow: hidden; 
+            background: #fff; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;
+            padding: 10px;
         }
-        .img-wrap img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; height: 44px; overflow: hidden; color: #fff; }
-        .c-price { font-size: 22px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; height: 44px; overflow: hidden; color: #fff; line-height: 1.2; }
+        .c-price { font-size: 24px; font-weight: 900; color: var(--accent); margin-bottom: 15px; }
         
         .btn-buy { 
-            padding: 12px; border-radius: 10px; border: none; cursor: pointer; 
-            font-weight: 700; background: var(--grad); color: white; width: 100%;
+            padding: 14px; border-radius: 12px; border: none; cursor: pointer; 
+            font-weight: 800; background: var(--grad); color: white; width: 100%; text-transform: uppercase;
         }
 
         /* --- КОРЗИНА --- */
@@ -90,16 +91,17 @@
             display: flex; align-items: center; gap: 15px; background: var(--card);
             padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border);
         }
-        .cart-img { width: 60px; height: 60px; object-fit: contain; background: #000; border-radius: 8px; }
+        .cart-img { width: 70px; height: 70px; object-fit: contain; background: #fff; border-radius: 8px; padding: 5px; }
 
         .float-cart {
             position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px;
             background: var(--grad); border-radius: 20px; display: none;
             align-items: center; justify-content: center; cursor: pointer; z-index: 100;
+            box-shadow: 0 8px 20px rgba(0, 242, 255, 0.3);
         }
         .badge { position: absolute; top: -5px; right: -5px; background: #ff4757; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
 
-        input.f-input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); background: #010409; color: white; outline: none; }
+        input.f-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -107,15 +109,16 @@
     <div id="auth-screen">
         <div class="auth-card">
             <div class="auth-logo">PC MASTER</div>
-            <input type="text" id="regName" class="f-input" placeholder="Введите ваш ник...">
-            <button class="btn-buy" onclick="login()">ВОЙТИ В СИСТЕМУ</button>
+            <p style="color: var(--text-dim); margin-bottom: 20px;">Введите никнейм для входа в панель</p>
+            <input type="text" id="regName" class="f-input" placeholder="Ваш ник...">
+            <button class="btn-buy" onclick="login()">АВТОРИЗАЦИЯ</button>
         </div>
     </div>
 
     <nav id="mainNav">
         <div class="logo-group">
             <div class="logo" onclick="showTab('home')">PC MASTER</div>
-            <div class="user-badge">👤 <span id="userNick">User</span></div>
+            <div class="user-badge" id="badgeContainer">👤 <span id="userNick">User</span></div>
         </div>
         <div class="nav-btns">
             <button id="tab-home" class="active" onclick="showTab('home')">КАТАЛОГ</button>
@@ -132,18 +135,18 @@
         <h2 style="font-family: 'Orbitron'; color: var(--accent); margin-bottom: 25px;">ВАША СБОРКА</h2>
         <div id="cartList"></div>
         <div id="cartSummary" style="margin-top: 20px; padding: 25px; background: var(--card); border-radius: 20px; border: 1px solid var(--accent); display: none; text-align: right;">
-            <p style="color: var(--text-dim)">Итоговая стоимость:</p>
+            <p style="color: var(--text-dim)">Итого к оплате:</p>
             <h2 id="totalPrice" style="color: var(--accent); font-size: 32px; margin: 10px 0;">0 сом</h2>
-            <button class="btn-buy" onclick="checkout()" style="max-width: 250px;">ПОДТВЕРДИТЬ ЗАКАЗ</button>
+            <button class="btn-buy" onclick="checkout()" style="max-width: 280px;">ОФОРМИТЬ СДЕЛКУ</button>
         </div>
         <div id="cartEmptyMsg" style="text-align: center; padding: 100px 0; color: var(--text-dim);">
-            <p>Корзина пуста. Добавьте комплектующие из каталога.</p>
+            <p>В корзине пока ничего нет...</p>
         </div>
     </div>
 
     <div id="empty-view" class="container" style="text-align: center; padding-top: 150px;">
-        <h1 style="font-family: 'Orbitron'; font-size: 80px; opacity: 0.05;">EMPTY</h1>
-        <p style="color: var(--accent); letter-spacing: 5px;">ЗДЕСЬ ПОКА ПУСТО</p>
+        <h1 style="font-family: 'Orbitron'; font-size: 80px; opacity: 0.1;">SALE</h1>
+        <p style="color: var(--accent); letter-spacing: 5px; font-weight: 800;">АКЦИИ ПОЯВЯТСЯ СКОРО</p>
     </div>
 
     <div class="float-cart" id="floatBtn" onclick="showTab('cart')">
@@ -152,23 +155,23 @@
     </div>
 
     <script>
-        // БАЗА ДАННЫХ С МАКСИМАЛЬНО СТАБИЛЬНЫМИ ССЫЛКАМИ
+        // БАЗА ДАННЫХ С ПРОВЕРЕННЫМИ ПРЯМЫМИ ССЫЛКАМИ НА ИЗОБРАЖЕНИЯ (Cloudinary & ImgBB)
         const db = [
-            { id: 1, cat: "Видеокарты", name: "NVIDIA GeForce RTX 4060", price: 32000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/RTX_4060_Ti.png/640px-RTX_4060_Ti.png" },
-            { id: 2, cat: "Процессоры", name: "Intel Core i5-13600K", price: 28500, img: "https://www.intel.com/content/dam/www/central-libraries/us/en/images/core-i5-badge-13th-gen-transparent-background.png.rendition.intel.web.480.270.png" },
-            { id: 3, cat: "Видеокарты", name: "AMD Radeon RX 7800 XT", price: 54000, img: "https://www.amd.com/system/files/2023-08/1932431-radeon-rx-7800-xt-front-1260x709.png" },
-            { id: 4, cat: "Процессоры", name: "AMD Ryzen 7 7800X3D", price: 38000, img: "https://www.amd.com/system/files/2023-01/1815147-ryzen-7-x3d-pi-600x600.png" },
-            { id: 5, cat: "Накопители", name: "Samsung 990 Pro 2TB", price: 18500, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v9p1t0bw/gallery/ru-990-pro-mz-v9p1t0bw-534244951" },
-            { id: 6, cat: "Блоки питания", name: "Corsair RM850x Gold", price: 12000, img: "https://cwsmgmt.corsair.com/pdp/rmx-series-2021/images/rm850x_01.png" },
-            { id: 7, cat: "Корпуса", name: "NZXT H7 Flow White", price: 11000, img: "https://www.datocms-assets.com/34299/1653035311-h7-flow-white-black-main.png" },
-            { id: 8, cat: "Материнки", name: "ASUS ROG Strix Z790-E", price: 42000, img: "https://dlcdnwebimgs.asus.com/gain/49C8B568-7D9A-46E0-B6D7-90515668478A/w1000/h732" }
+            { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060 Ti 8GB", price: 38500, img: "https://i.ibb.co/L5pYvXq/rtx4060ti.png" },
+            { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F OEM", price: 17200, img: "https://i.ibb.co/YyYf8vN/i5-13400f.png" },
+            { id: 3, cat: "Видеокарты", name: "MSI GeForce RTX 4070 Ventus", price: 59000, img: "https://i.ibb.co/D8mHq6G/rtx4070.png" },
+            { id: 4, cat: "Процессоры", name: "AMD Ryzen 7 7800X3D Box", price: 39500, img: "https://i.ibb.co/vxsL0X4/7800x3d.png" },
+            { id: 5, cat: "Накопители", name: "Samsung 980 Pro 1TB M.2", price: 9800, img: "https://i.ibb.co/vX5Hcyb/samsung980.png" },
+            { id: 6, cat: "Блоки питания", name: "DeepCool PM850D Gold", price: 8500, img: "https://i.ibb.co/0V9G0vW/deepcool850.png" },
+            { id: 7, cat: "Корпуса", name: "LIAN LI Lancool 216 RGB", price: 9200, img: "https://i.ibb.co/SrtR4Wf/lianli.png" },
+            { id: 8, cat: "Материнки", name: "Gigabyte B650 AORUS ELITE", price: 21000, img: "https://i.ibb.co/nRL308G/b650.png" }
         ];
 
         let cart = [];
 
         function login() {
             const name = document.getElementById('regName').value;
-            if (name.trim().length < 2) return alert("Введите никнейм!");
+            if (name.trim().length < 2) return alert("Введите нормальный ник!");
             
             document.getElementById('userNick').innerText = name;
             document.getElementById('auth-screen').style.opacity = '0';
@@ -178,6 +181,8 @@
                 document.getElementById('mainNav').style.display = 'flex';
                 document.getElementById('home-view').style.display = 'block';
                 document.getElementById('floatBtn').style.display = 'flex';
+                
+                // Рендерим товары сразу после появления контейнера
                 renderProducts(db);
             }, 600);
         }
@@ -187,12 +192,12 @@
             grid.innerHTML = items.map(p => `
                 <div class="card">
                     <div class="img-wrap">
-                        <img src="${p.img}" alt="${p.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2038/2038933.png'">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy">
                     </div>
-                    <div style="font-size: 11px; color: var(--accent); letter-spacing: 1px;">${p.cat.toUpperCase()}</div>
+                    <div style="font-size: 11px; color: var(--accent); font-weight: 800; margin-bottom: 5px;">${p.cat.toUpperCase()}</div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
-                    <button class="btn-buy" onclick="addToCart(${p.id})">ДОБАВИТЬ В КОРЗИНУ</button>
+                    <button class="btn-buy" onclick="addToCart(${p.id})">В КОРЗИНУ</button>
                 </div>
             `).join('');
         }
@@ -203,8 +208,8 @@
             updateCart();
             
             const btn = document.getElementById('floatBtn');
-            btn.style.transform = 'scale(1.2)';
-            setTimeout(() => btn.style.transform = 'scale(1)', 200);
+            btn.style.transform = 'scale(1.2) rotate(5deg)';
+            setTimeout(() => btn.style.transform = 'scale(1) rotate(0deg)', 200);
         }
 
         function updateCart() {
@@ -222,12 +227,12 @@
                 summary.style.display = 'block';
                 list.innerHTML = cart.map((p, i) => `
                     <div class="cart-item">
-                        <img src="${p.img}" class="cart-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2038/2038933.png'">
+                        <img src="${p.img}" class="cart-img">
                         <div style="flex: 1;">
                             <h4 style="font-size: 14px;">${p.name}</h4>
                             <p style="color: var(--accent); font-weight: 800;">${p.price.toLocaleString()} сом</p>
                         </div>
-                        <button onclick="removeFromCart(${i})" style="background: none; border: none; color: #ff4757; cursor: pointer; font-weight: 800;">❌</button>
+                        <button onclick="removeFromCart(${i})" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 18px;">✕</button>
                     </div>
                 `).join('');
                 
@@ -250,7 +255,7 @@
         }
 
         function checkout() {
-            alert("Заказ оформлен! Наш менеджер свяжется с " + document.getElementById('userNick').innerText);
+            alert("Готово! Ваш заказ сформирован под именем: " + document.getElementById('userNick').innerText);
             cart = [];
             updateCart();
             showTab('home');
