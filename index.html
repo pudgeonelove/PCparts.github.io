@@ -42,8 +42,9 @@
         }
         .search-container input:focus { border-color: var(--accent); }
 
+        .nav-links { display: flex; gap: 20px; }
         .nav-links button {
-            background: none; border: none; color: var(--text-dim); margin-left: 20px;
+            background: none; border: none; color: var(--text-dim);
             cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 16px;
         }
         .nav-links button:hover, .nav-links button.active { color: var(--accent); }
@@ -97,6 +98,10 @@
         .cart-total { text-align: right; font-size: 24px; font-weight: bold; margin-top: 20px; color: var(--accent); }
         .checkout-all-btn { float: right; margin-top: 15px; padding: 15px 30px; background: var(--gradient); border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; }
 
+        /* --- Третья вкладка (Инфо/Пусто) --- */
+        #info-view { display: none; text-align: center; padding: 100px 0; }
+        .empty-text-large { font-size: 48px; color: #30363d; text-transform: uppercase; letter-spacing: 10px; font-weight: 800; }
+
         /* --- Плавающая кнопка корзины --- */
         .floating-cart {
             position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
@@ -141,6 +146,7 @@
         <div class="nav-links">
             <button id="btn-home" class="active" onclick="switchTab('home')">Каталог</button>
             <button id="btn-cart" onclick="switchTab('cart')">Корзина</button>
+            <button id="btn-info" onclick="switchTab('info')">О нас</button>
         </div>
     </nav>
 
@@ -167,8 +173,13 @@
         </div>
         <div id="empty-cart-msg" style="text-align: center; padding: 50px 0; color: var(--text-dim);">
             <h2>Пусто</h2>
-            <p>Вы еще ничего не добавили.</p>
+            <p>Вы еще ничего не добавили в корзину.</p>
         </div>
+    </div>
+
+    <div class="container" id="info-view">
+        <div class="empty-text-large">Пусто</div>
+        <p style="color: var(--text-dim); margin-top: 10px;">Здесь пока ничего нет. Место для будущего контента.</p>
     </div>
 
     <div class="floating-cart" onclick="switchTab('cart')">
@@ -202,26 +213,25 @@
     </div>
 
     <script>
-        // База данных товаров (реалистичные цены в сомах)
+        // База данных товаров с прямыми ссылками на реальные фото железа
         const products = [
-    { id: 1, name: "NVIDIA RTX 4060 8GB", category: "Видеокарты", price: 29500, img: "img/gpu_4060.jpg", desc: "Отличный выбор для Full HD гейминга на ультра настройках." },
-    { id: 2, name: "AMD Radeon RX 7600", category: "Видеокарты", price: 26000, img: "img/gpu_7600.jpg", desc: "Конкурент от красных. Отличная производительность за свои деньги." },
-    { id: 3, name: "NVIDIA RTX 4070 12GB", category: "Видеокарты", price: 56000, img: "img/gpu_4070.jpg", desc: "Золотая середина для 2K гейминга с трассировкой лучей." },
-    
-    { id: 4, name: "Intel Core i5-13400F", category: "Процессоры", price: 16500, img: "img/cpu_i5.jpg", desc: "10 ядер, 16 потоков. Идеальный баланс для игр и работы." },
-    { id: 5, name: "AMD Ryzen 5 7600", category: "Процессоры", price: 18000, img: "img/cpu_ryzen.jpg", desc: "Новый сокет AM5, высокая частота и крутой потенциал." },
-    
-    { id: 6, name: "Kingston NV2 1TB M.2", category: "Накопители", price: 5500, img: "img/ssd_knv2.jpg", desc: "Быстрый NVMe SSD для мгновенной загрузки Windows и игр." },
-    { id: 7, name: "Samsung 980 PRO 1TB", category: "Накопители", price: 9500, img: "img/ssd_980pro.jpg", desc: "Топовый SSD PCIe 4.0 со скоростью чтения до 7000 МБ/с." },
-    
-    { id: 8, name: "DeepCool PK750D 750W", category: "Блоки питания", price: 6500, img: "img/psu_deepcool.jpg", desc: "Надежный блок питания с сертификатом 80+ Bronze." },
-    { id: 9, name: "Corsair RM850e 850W", category: "Блоки питания", price: 11500, img: "img/psu_corsair.jpg", desc: "Полностью модульный, тихий и очень мощный (80+ Gold)." }
-];
-        
+            { id: 1, name: "NVIDIA RTX 4060 8GB", category: "Видеокарты", price: 29500, img: "https://dlcdnimgs.asus.com/gain/358872CB-B536-40D4-B474-061730B09A9B/w240/h170", desc: "Отличный выбор для Full HD гейминга на ультра настройках." },
+            { id: 2, name: "AMD Radeon RX 7600", category: "Видеокарты", price: 26000, img: "https://www.gigabyte.com/Image/4982c70093864491ba68134747209930/Product/35402/webp/240", desc: "Конкурент от красных. Отличная производительность за свои деньги." },
+            { id: 3, name: "NVIDIA RTX 4070 12GB", category: "Видеокарты", price: 56000, img: "https://dlcdnimgs.asus.com/gain/49DA6B6F-7917-4861-A87A-725F560549A2/w240/h170", desc: "Золотая середина для 2K гейминга с трассировкой лучей." },
+            
+            { id: 4, name: "Intel Core i5-13400F", category: "Процессоры", price: 16500, img: "https://img.procpu.kz/images/intel-core-i5-13400f_4.png", desc: "10 ядер, 16 потоков. Идеальный баланс для игр и работы." },
+            { id: 5, name: "AMD Ryzen 5 7600", category: "Процессоры", price: 18000, img: "https://p-ua.com.ua/images/goods/41512/Ryzen_5_7600X_b3f9ff43-5243-4e42-ac94-912b50bd6857.png", desc: "Новый сокет AM5, высокая частота и крутой потенциал." },
+            
+            { id: 6, name: "Kingston NV2 1TB M.2", category: "Накопители", price: 5500, img: "https://p-ua.com.ua/images/goods/34193/Kingston_NV2_1TB_NVMe_PCIe_4.0_x4_M.2_SNV2S1000G_66465fbb-5750-42f8-9c59-d8e23439e6da.png", desc: "Быстрый NVMe SSD для мгновенной загрузки Windows и игр." },
+            { id: 7, name: "Samsung 980 PRO 1TB", category: "Накопители", price: 9500, img: "https://p-ua.com.ua/images/goods/31966/Samsung_980_PRO_1_TB_MZ-V8P1T0BW_2f026723-883a-4468-b7b5-22d7ef266858.png", desc: "Топовый SSD PCIe 4.0 со скоростью чтения до 7000 МБ/с." },
+            
+            { id: 8, name: "DeepCool PK750D 750W", category: "Блоки питания", price: 6500, img: "https://p-ua.com.ua/images/goods/47690/Deepcool_PK750D_R-PK750D-FA0B-EU_2c525f9b-6b72-4d2d-a192-3be91b92040b.png", desc: "Надежный блок питания с сертификатом 80+ Bronze." },
+            { id: 9, name: "Corsair RM850e 850W", category: "Блоки питания", price: 11500, img: "https://p-ua.com.ua/images/goods/41199/Corsair_RM850e_CP-9020263-EU_c14a2a1b-0e54-4a6c-9a40-e22a76f23e20.png", desc: "Полностью модульный, тихий и очень мощный (80+ Gold)." }
+        ];
+
         let cart = [];
         let currentCategory = 'Все';
 
-        // Рендер товаров
         function renderProducts(items) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
@@ -249,20 +259,15 @@
             });
         }
 
-        // Фильтрация
         function filterCategory(category) {
             currentCategory = category;
-            
-            // Обновляем активную кнопку
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.innerText === category) btn.classList.add('active');
             });
-
-            handleSearch(); // Применяем фильтр вместе с поиском
+            handleSearch();
         }
 
-        // Поиск
         function handleSearch() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = products.filter(p => {
@@ -273,25 +278,21 @@
             renderProducts(filtered);
         }
 
-        // Добавление в корзину
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             cart.push(product);
             updateCartUI();
             
-            // Анимация бейджа
             const badge = document.getElementById('cart-badge');
             badge.style.transform = 'scale(1.5)';
             setTimeout(() => badge.style.transform = 'scale(1)', 200);
         }
 
-        // Удаление из корзины
         function removeFromCart(index) {
             cart.splice(index, 1);
             updateCartUI();
         }
 
-        // Обновление корзины
         function updateCartUI() {
             document.getElementById('cart-badge').innerText = cart.length;
             const container = document.getElementById('cart-items-container');
@@ -327,28 +328,28 @@
             }
         }
 
-        // Переключение вкладок
         function switchTab(tab) {
-            const homeView = document.getElementById('home-view');
-            const cartView = document.getElementById('cart-view');
+            const views = {
+                'home': document.getElementById('home-view'),
+                'cart': document.getElementById('cart-view'),
+                'info': document.getElementById('info-view')
+            };
+            const btns = {
+                'home': document.getElementById('btn-home'),
+                'cart': document.getElementById('btn-cart'),
+                'info': document.getElementById('btn-info')
+            };
             const filters = document.getElementById('category-filters');
-            
-            if(tab === 'home') {
-                homeView.style.display = 'block';
-                filters.style.display = 'flex';
-                cartView.style.display = 'none';
-                document.getElementById('btn-home').classList.add('active');
-                document.getElementById('btn-cart').classList.remove('active');
-            } else {
-                homeView.style.display = 'none';
-                filters.style.display = 'none';
-                cartView.style.display = 'block';
-                document.getElementById('btn-home').classList.remove('active');
-                document.getElementById('btn-cart').classList.add('active');
-            }
+
+            Object.values(views).forEach(view => view.style.display = 'none');
+            Object.values(btns).forEach(btn => btn.classList.remove('active'));
+
+            views[tab].style.display = 'block';
+            btns[tab].classList.add('active');
+
+            filters.style.display = tab === 'home' ? 'flex' : 'none';
         }
 
-        // Модальное окно заказа
         const overlay = document.getElementById('overlay');
         let isCartCheckout = false;
 
@@ -360,9 +361,8 @@
             document.getElementById('modal-success').style.display = 'none';
         }
 
-        function closeOrder() {
-            overlay.style.display = 'none';
-        }
+        function closeModal() { overlay.style.display = 'none'; }
+        const closeOrder = closeModal;
 
         function processOrder() {
             const btn = document.querySelector('#modal-form .btn-buy');
@@ -377,14 +377,4 @@
                 
                 if(isCartCheckout) {
                     cart = [];
-                    updateCartUI();
-                    switchTab('home');
-                }
-            }, 1500);
-        }
-
-        // Инициализация
-        renderProducts(products);
-    </script>
-</body>
-</html>
+        
