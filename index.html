@@ -3,186 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC MASTER | Магазин комплектующих</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>PC MASTER PRO | Premium Hardware</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #0d1117;
-            --card: #161b22;
+            --bg: #05070a;
+            --card: rgba(22, 27, 34, 0.8);
             --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.3);
             --text: #ffffff;
             --text-dim: #8b949e;
             --border: #30363d;
             --grad: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%);
+            --panel: rgba(13, 17, 23, 0.9);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #0a1120 0%, var(--bg) 100%),
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+        }
 
-        /* --- Навигация --- */
+        /* --- ЭКРАН РЕГИСТРАЦИИ --- */
+        #auth-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .auth-card {
+            background: var(--card); padding: 40px; border-radius: 24px;
+            border: 1px solid var(--accent); width: 100%; max-width: 400px;
+            text-align: center; backdrop-filter: blur(20px);
+            box-shadow: 0 0 50px var(--accent-glow);
+        }
+        .auth-logo { 
+            font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900;
+            margin-bottom: 20px; background: var(--grad); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* --- НАВИГАЦИЯ --- */
         nav {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(13, 17, 23, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 5%;
+            background: var(--panel); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border); padding: 15px 5%;
             display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 15px;
+            gap: 15px; visibility: hidden; opacity: 0; transition: 0.5s;
+        }
+        .nav-visible { visibility: visible !important; opacity: 1 !important; }
+
+        .logo-group { display: flex; align-items: center; gap: 15px; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; color: var(--accent); }
+        .user-badge { 
+            background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent);
+            padding: 4px 12px; border-radius: 12px; font-size: 12px; color: var(--accent);
+            display: flex; align-items: center; gap: 6px;
         }
 
-        .logo { font-size: 22px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
-        
-        .search-box { flex: 1; max-width: 400px; margin: 0 15px; }
+        .search-box { flex: 1; max-width: 400px; }
         .search-box input {
-            width: 100%; padding: 10px 20px; border-radius: 25px;
-            background: #010409; border: 1px solid var(--border);
-            color: white; outline: none; transition: 0.3s;
+            width: 100%; padding: 12px 20px; border-radius: 12px;
+            background: #010409; border: 1px solid var(--border); color: white; outline: none;
         }
-        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
 
-        .nav-btns { display: flex; gap: 15px; }
         .nav-btns button {
             background: none; border: none; color: var(--text-dim);
-            font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-weight: 600; cursor: pointer; padding: 8px 12px; transition: 0.3s;
         }
-        .nav-btns button.active, .nav-btns button:hover { color: var(--accent); }
+        .nav-btns button.active { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
 
-        /* --- Фильтры --- */
-        .cats { display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap; }
-        .cat-tag {
-            padding: 8px 18px; border-radius: 20px; background: var(--card);
-            border: 1px solid var(--border); color: var(--text-dim);
-            cursor: pointer; font-size: 14px; transition: 0.3s;
-        }
-        .cat-tag.active, .cat-tag:hover { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
-
-        /* --- Сетка товаров --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
-        
+        /* --- КАРТОЧКИ ТОВАРОВ --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
         .card {
-            background: var(--card); border-radius: 15px; border: 1px solid var(--border);
-            padding: 20px; display: flex; flex-direction: column; transition: 0.3s;
+            background: var(--card); border-radius: 20px; border: 1px solid var(--border);
+            padding: 20px; display: flex; flex-direction: column; transition: 0.4s;
+            backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        .img-wrap { width: 100%; height: 180px; border-radius: 10px; overflow: hidden; background: #010409; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; padding: 10px; }
-        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .img-wrap { 
+            width: 100%; height: 200px; border-radius: 15px; overflow: hidden; 
+            background: #010409; margin-bottom: 15px; padding: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)); }
         
-        .c-cat { font-size: 11px; color: var(--accent); text-transform: uppercase; margin-bottom: 5px; }
-        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; min-height: 44px; }
-        .c-price { font-size: 20px; font-weight: 800; color: var(--accent); margin-top: auto; padding: 15px 0; }
+        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; font-family: 'Inter', sans-serif; }
+        .c-price { font-size: 22px; font-weight: 800; color: var(--accent); margin-top: auto; }
         
-        .actions { display: flex; gap: 10px; }
-        .btn { padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; flex: 1; transition: 0.3s; }
-        .btn-buy { background: var(--grad); color: white; }
-        .btn-cart { background: rgba(0, 242, 255, 0.1); color: var(--accent); border: 1px solid var(--accent); }
-        .btn:hover { opacity: 0.8; }
+        /* --- КНОПКИ --- */
+        .btn { padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .btn-buy { background: var(--grad); color: white; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3); }
+        .btn-buy:hover { transform: scale(1.02); box-shadow: 0 4px 20px var(--accent-glow); }
 
-        /* --- Вкладки --- */
-        .view { display: none; }
-        .view.active { display: block; }
-        
-        #empty-view { text-align: center; padding: 100px 0; }
-        .big-text { font-size: 60px; font-weight: 800; color: #21262d; letter-spacing: 5px; }
-
-        /* --- Корзина --- */
+        /* --- КОРЗИНА --- */
         .cart-item {
-            display: flex; align-items: center; gap: 20px;
-            background: var(--card); padding: 15px; border-radius: 12px;
-            margin-bottom: 10px; border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 20px; background: var(--card);
+            padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border);
         }
-        .cart-img { width: 60px; height: 60px; border-radius: 5px; object-fit: contain; background: #010409; padding: 5px; }
-        .cart-info { flex: 1; }
-        .del-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-size: 14px; }
+        .cart-img { width: 80px; height: 80px; object-fit: contain; background: #010409; border-radius: 10px; }
 
-        /* --- Плавающая корзина --- */
+        /* --- ПРОЧЕЕ --- */
+        .view { display: none; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         .float-cart {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: var(--grad); border-radius: 50%; display: flex;
+            position: fixed; bottom: 30px; right: 30px; width: 66px; height: 66px;
+            background: var(--grad); border-radius: 20px; display: flex;
             align-items: center; justify-content: center; cursor: pointer; z-index: 100;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: rotate(-5deg);
         }
-        .badge {
-            position: absolute; top: 0; right: 0; background: #ff4757;
-            width: 22px; height: 22px; border-radius: 50%; font-size: 12px;
-            display: flex; align-items: center; justify-content: center; font-weight: 800;
-        }
+        .badge { position: absolute; top: -5px; right: -5px; background: #ff4757; width: 24px; height: 24px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; transform: rotate(5deg); }
 
-        /* --- Модалка --- */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center;
-            z-index: 2000;
-        }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--accent); }
-        input.f-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border); background: #0d1117; color: white; outline: none; }
+        input.f-input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-size: 16px; }
+        input.f-input:focus { border-color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo" onclick="showTab('home')">PC MASTER</div>
+    <div id="auth-screen">
+        <div class="auth-card">
+            <div class="auth-logo">PC MASTER</div>
+            <p style="color: var(--text-dim); margin-bottom: 25px;">Добро пожаловать в будущее гейминга</p>
+            <input type="text" id="regName" class="f-input" placeholder="Введите ваш никнейм...">
+            <button class="btn btn-buy" style="width: 100%; margin-top: 10px;" onclick="login()">Войти в систему</button>
+        </div>
+    </div>
+
+    <nav id="mainNav">
+        <div class="logo-group">
+            <div class="logo" onclick="showTab('home')">PC MASTER</div>
+            <div id="userNameDisplay" class="user-badge">
+                <span>👤</span> <span id="userNick">User</span>
+            </div>
+        </div>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по названию..." onkeyup="search()">
+            <input type="text" id="searchInput" placeholder="Поиск железа..." onkeyup="search()">
         </div>
         <div class="nav-btns">
-            <button id="tab-home" class="active" onclick="showTab('home')">Каталог</button>
-            <button id="tab-cart" onclick="showTab('cart')">Корзина</button>
-            <button id="tab-empty" onclick="showTab('empty')">Спецпредложения</button>
+            <button id="tab-home" class="active" onclick="showTab('home')">КАТАЛОГ</button>
+            <button id="tab-cart" onclick="showTab('cart')">КОРЗИНА</button>
+            <button id="tab-empty" onclick="showTab('empty')">АКЦИИ</button>
         </div>
     </nav>
 
-    <div id="home-view" class="view active">
-        <div class="cats">
-            <button class="cat-tag active" onclick="filter('Все')">Все</button>
-            <button class="cat-tag" onclick="filter('Процессоры')">Процессоры</button>
-            <button class="cat-tag" onclick="filter('Видеокарты')">Видеокарты</button>
-            <button class="cat-tag" onclick="filter('Накопители')">Накопители</button>
-            <button class="cat-tag" onclick="filter('Блоки питания')">БП</button>
+    <div id="home-view" class="view container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+        <div class="cats" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 20px;">
+            <button class="cat-tag active" onclick="filter('Все')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Все</button>
+            <button class="cat-tag" onclick="filter('Процессоры')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Процессоры</button>
+            <button class="cat-tag" onclick="filter('Видеокарты')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Видеокарты</button>
         </div>
-        <div class="container">
-            <div class="grid" id="productGrid"></div>
+        <div class="grid" id="productGrid"></div>
+    </div>
+
+    <div id="cart-view" class="view container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 30px;">ТВОЙ СЭТАП</h2>
+        <div id="cartList"></div>
+        <div id="cartSummary" style="background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--accent); margin-top: 20px; text-align: right; display: none;">
+            <p style="color: var(--text-dim)">Общая стоимость:</p>
+            <h2 id="totalPrice" style="color: var(--accent); font-size: 32px;">0 сом</h2>
+            <button class="btn btn-buy" style="margin-top: 20px; padding: 15px 40px;" onclick="openOrder('Корзина')">ОФОРМИТЬ ЗАКАЗ</button>
+        </div>
+        <div id="cartEmptyMsg" style="text-align: center; padding: 100px 0;">
+            <p style="font-size: 40px; opacity: 0.1; font-weight: 900;">ПУСТО</p>
         </div>
     </div>
 
-    <div id="cart-view" class="view">
-        <div class="container">
-            <h2 style="margin-bottom: 20px;">Ваша корзина</h2>
-            <div id="cartList"></div>
-            <div id="cartSummary" style="margin-top: 30px; text-align: right; display: none;">
-                <h3>Итого: <span id="totalPrice" style="color: var(--accent);">0</span> сом</h3>
-                <button class="btn btn-buy" style="max-width: 200px; margin-top: 15px;" onclick="openOrder('Корзина')">Оформить всё</button>
-            </div>
-            <div id="cartEmptyMsg" style="text-align: center; color: var(--text-dim); padding-top: 50px;">
-                <p>Тут пока ничего нет...</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="empty-view" class="view">
-        <div class="big-text">ПУСТО</div>
-        <p style="text-align: center; color: var(--text-dim);">Скоро здесь появятся акции!</p>
+    <div id="empty-view" class="view" style="text-align: center; padding: 150px 20px;">
+        <h1 style="font-size: 80px; font-family: 'Orbitron'; opacity: 0.05;">VACANT</h1>
+        <p style="color: var(--accent); letter-spacing: 5px;">СКОРО ЗДЕСЬ БУДУТ ЛУЧШИЕ ПРЕДЛОЖЕНИЯ</p>
     </div>
 
     <div class="float-cart" onclick="showTab('cart')">
         <div class="badge" id="cartBadge">0</div>
-        <span>🛒</span>
-    </div>
-
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
-            <h2 id="orderTitle">Оформление</h2>
-            <input type="text" class="f-input" placeholder="Ваше имя">
-            <input type="tel" class="f-input" placeholder="Ваш телефон">
-            <button class="btn btn-buy" style="width: 100%;" onclick="confirmOrder()">Подтвердить заказ</button>
-            <button class="btn" style="width: 100%; background: none; color: var(--text-dim);" onclick="closeModal()">Отмена</button>
-        </div>
+        <span style="font-size: 24px;">🛒</span>
     </div>
 
     <script>
-        // БАЗА ДАННЫХ С НОВЫМИ ПРОВЕРЕННЫМИ ССЫЛКАМИ НА КАРТИНКИ
         const db = [
             { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060", price: 29500, img: "https://dlcdnwebimgs.asus.com/gain/bd4c98bc-2292-4265-855c-2329407c893f/" },
             { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F", price: 16500, img: "https://directcomputers.co.uk/cdn/shop/files/5926061ced9ec9b3172d78bdd15c2083_6562eb49-d0e8-446b-b869-9a16edda3c13.jpg?v=1764812263&width=1000" },
@@ -197,46 +203,41 @@
         let cart = [];
         let activeCat = 'Все';
 
+        // ЛОГИКА ВХОДА
+        function login() {
+            const name = document.getElementById('regName').value;
+            if (name.trim().length < 2) {
+                alert("Введите нормальный никнейм!");
+                return;
+            }
+            document.getElementById('userNick').innerText = name;
+            document.getElementById('auth-screen').style.opacity = '0';
+            document.getElementById('auth-screen').style.pointerEvents = 'none';
+            document.getElementById('mainNav').classList.add('nav-visible');
+            document.getElementById('home-view').classList.add('active');
+        }
+
         function render(items) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = items.map(p => `
                 <div class="card">
-                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Error'"></div>
-                    <div class="c-cat">${p.cat}</div>
+                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+                    <div style="font-size: 10px; color: var(--accent); letter-spacing: 2px;">${p.cat.toUpperCase()}</div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
-                    <div class="actions">
-                        <button class="btn btn-buy" onclick="openOrder('${p.name}')">Купить</button>
-                        <button class="btn btn-cart" onclick="addToCart(${p.id})">В корзину</button>
-                    </div>
+                    <button class="btn btn-buy" style="margin-top: 15px;" onclick="addToCart(${p.id})">ДОБАВИТЬ В СЭТАП</button>
                 </div>
             `).join('');
-        }
-
-        function filter(c) {
-            activeCat = c;
-            document.querySelectorAll('.cat-tag').forEach(b => b.classList.toggle('active', b.innerText === c));
-            search();
-        }
-
-        function search() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = db.filter(p => 
-                (activeCat === 'Все' || p.cat === activeCat) && 
-                p.name.toLowerCase().includes(query)
-            );
-            render(filtered);
         }
 
         function addToCart(id) {
             const p = db.find(x => x.id === id);
             cart.push(p);
             updateCart();
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
+            // Легкая анимация кнопки корзины
+            const fb = document.querySelector('.float-cart');
+            fb.style.transform = 'scale(1.2) rotate(0deg)';
+            setTimeout(() => fb.style.transform = 'rotate(-5deg)', 200);
         }
 
         function updateCart() {
@@ -246,25 +247,27 @@
             const empty = document.getElementById('cartEmptyMsg');
             
             if (cart.length === 0) {
-                list.innerHTML = '';
-                summary.style.display = 'none';
-                empty.style.display = 'block';
+                list.innerHTML = ''; summary.style.display = 'none'; empty.style.display = 'block';
             } else {
-                empty.style.display = 'none';
-                summary.style.display = 'block';
+                empty.style.display = 'none'; summary.style.display = 'block';
                 list.innerHTML = cart.map((p, i) => `
                     <div class="cart-item">
-                        <img src="${p.img}" class="cart-img" onerror="this.src='https://via.placeholder.com/100x100?text=Err'">
-                        <div class="cart-info">
-                            <h4>${p.name}</h4>
+                        <img src="${p.img}" class="cart-img">
+                        <div style="flex:1">
+                            <h4 style="font-family:'Orbitron'">${p.name}</h4>
                             <p style="color: var(--accent)">${p.price.toLocaleString()} сом</p>
                         </div>
-                        <button class="del-btn" onclick="removeFromCart(${i})">Удалить</button>
+                        <button onclick="removeFromCart(${i})" style="background:none; border:none; color:#ff4757; cursor:pointer;">УДАЛИТЬ</button>
                     </div>
                 `).join('');
                 const total = cart.reduce((sum, p) => sum + p.price, 0);
-                document.getElementById('totalPrice').innerText = total.toLocaleString();
+                document.getElementById('totalPrice').innerText = total.toLocaleString() + ' сом';
             }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
         }
 
         function showTab(t) {
@@ -272,35 +275,27 @@
             document.querySelectorAll('.nav-btns button').forEach(b => b.classList.remove('active'));
             document.getElementById(`${t}-view`).classList.add('active');
             document.getElementById(`tab-${t}`).classList.add('active');
-            window.scrollTo(0,0);
         }
 
-        function openOrder(name) {
-            document.getElementById('orderTitle').innerText = name === 'Корзина' ? 'Ваш заказ' : name;
-            document.getElementById('orderModal').style.display = 'flex';
+        function search() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = db.filter(p => p.name.toLowerCase().includes(query));
+            render(filtered);
         }
 
-        function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
-        
-        function confirmOrder() {
-            alert('Заказ принят! Мы свяжемся с вами.');
-            if (document.getElementById('orderTitle').innerText === 'Ваш заказ') {
-                cart = [];
-                updateCart();
-                showTab('home');
-            }
-            closeModal();
+        function filter(c) {
+            const filtered = c === 'Все' ? db : db.filter(p => p.cat === c);
+            render(filtered);
         }
 
-        // Закрытие модалки при клике вне окна
-        window.onclick = function(event) {
-            const modal = document.getElementById('orderModal');
-            if (event.target == modal) {
-                closeModal();
-            }
+        function openOrder() {
+            alert("Система: Заказ успешно сформирован для " + document.getElementById('userNick').innerText + "!");
+            cart = [];
+            updateCart();
+            showTab('home');
         }
 
-        // Старт
+        // Рендер при загрузке
         render(db);
     </script>
 </body>
