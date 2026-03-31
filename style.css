@@ -39,6 +39,28 @@ header {
  background:#2563eb;
 }
 
+.controls {
+ display:flex;
+ gap:10px;
+ margin-bottom:20px;
+ flex-wrap:wrap;
+}
+
+.search {
+ flex:1;
+ padding:10px;
+ border-radius:8px;
+ border:none;
+}
+
+.category {
+ padding:10px;
+ border-radius:8px;
+ border:none;
+ background:#1e293b;
+ color:white;
+}
+
 .grid {
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -104,4 +126,4 @@ input {
  width:100%;
  padding:10px;
  margin:5px 0;
-}
+ }
