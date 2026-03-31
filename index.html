@@ -2,47 +2,404 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>PC Parts | Магазин комплектующих</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Parts | Premium Hardware</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0b0e14;
+            --card-bg: #161b22;
+            --accent: #00f2ff;
+            --accent-hover: #00d4e0;
+            --text-main: #ffffff;
+            --text-dim: #8b949e;
+            --gradient: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Навигация --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            margin-left: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-links button:hover, .nav-links button.active {
+            color: var(--accent);
+        }
+
+        /* --- Контент --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        /* --- Сетка товаров --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #30363d;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            background: #0d1117;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #30363d;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .buy-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* --- Вторая вкладка --- */
+        #empty-view {
+            text-align: center;
+            padding: 100px 0;
+            display: none;
+        }
+
+        .empty-text {
+            font-size: 48px;
+            color: #30363d;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+        }
+
+        /* --- Модальное окно (Checkout) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--accent);
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal h2 { margin-bottom: 15px; }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        .form-group input:focus { border-color: var(--accent); }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .close-btn {
+            float: right;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Анимация имитации покупки */
+        .success-anim {
+            color: #00ff88;
+            text-align: center;
+            display: none;
+        }
+    </style>
 </head>
 <body>
+
     <nav>
         <div class="logo">PC PARTS</div>
         <div class="nav-links">
-            <a href="#" onclick="showPage('home')">Главная</a>
-            <a href="#" onclick="showPage('empty')">Корзина</a>
+            <button id="btn-home" class="active" onclick="switchTab('home')">Каталог</button>
+            <button id="btn-empty" onclick="switchTab('empty')">Корзина</button>
         </div>
     </nav>
 
-    <main id="home-page">
-        <h1>Комплектующие для ПК</h1>
-        <div class="grid">
-            <div class="card">
-                <img src="https://via.placeholder.com/200x150?text=RTX+4090" alt="GPU">
-                <h3>NVIDIA RTX 4090</h3>
-                <p>Мощная видеокарта для гейминга.</p>
-                <div class="price">150 000 сом</div>
-                <button onclick="openModal('NVIDIA RTX 4090')">Купить</button>
+    <div class="container" id="home-view">
+        <h1 class="section-title">Лучшее железо для твоего зверя</h1>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=400" alt="RTX 4090">
+                </div>
+                <h3 class="product-title">NVIDIA GeForce RTX 4090</h3>
+                <p class="product-desc">Ультимативная мощь для 4K гейминга и работы с графикой. 24GB видеопамяти.</p>
+                <div class="product-footer">
+                    <span class="price">165 000 сом</span>
+                    <button class="buy-btn" onclick="openOrder('RTX 4090')">Заказать</button>
+                </div>
             </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=400" alt="Core i9">
+                </div>
+                <h3 class="product-title">Intel Core i9-14900K</h3>
+                <p class="product-desc">Самый быстрый процессор для энтузиастов. 24 ядра, до 6.0 GHz.</p>
+                <div class="product-footer">
+                    <span class="price">52 000 сом</span>
+                    <button class="buy-btn" onclick="openOrder('Core i9-14900K')">Заказать</button>
+                </div>
             </div>
-    </main>
 
-    <main id="empty-page" style="display:none;">
-        <h1>Ваша корзина</h1>
-        <p>пусто</p>
-    </main>
-
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Оформление заказа</h2>
-            <p>Вы выбрали: <strong id="itemName"></strong></p>
-            <input type="text" placeholder="Ваше имя">
-            <input type="tel" placeholder="Номер телефона">
-            <button onclick="confirmPurchase()">Подтвердить заказ</button>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&q=80&w=400" alt="RAM">
+                </div>
+                <h3 class="product-title">Kingston FURY 64GB DDR5</h3>
+                <p class="product-desc">Молниеносная память с RGB подсветкой и частотой 6000MT/s.</p>
+                <div class="product-footer">
+                    <span class="price">18 500 сом</span>
+                    <button class="buy-btn" onclick="openOrder('Kingston DDR5')">Заказать</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="container" id="empty-view">
+        <div class="empty-text">Пусто</div>
+        <p style="color: var(--text-dim)">Вы еще ничего не добавили в корзину.</p>
+    </div>
+
+    <div class="modal-overlay" id="overlay">
+        <div class="modal">
+            <span class="close-btn" onclick="closeOrder()">&times;</span>
+            <div id="modal-form">
+                <h2>Оформление заказа</h2>
+                <p id="selected-item" style="color: var(--accent); margin-bottom: 20px; font-weight: bold;"></p>
+                
+                <div class="form-group">
+                    <label>Ваше ФИО</label>
+                    <input type="text" placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label>Адрес доставки</label>
+                    <input type="text" placeholder="г. Бишкек, ул. Ленина 1">
+                </div>
+                
+                <button class="confirm-btn" onclick="processOrder()">Подтвердить покупку</button>
+            </div>
+
+            <div id="modal-success" class="success-anim">
+                <h2 style="font-size: 40px;">✔</h2>
+                <h3>Заказ оформлен!</h3>
+                <p style="color: var(--text-dim); margin-top: 10px;">Мы скоро свяжемся с вами для уточнения деталей.</p>
+                <button class="confirm-btn" style="background: #30363d; margin-top: 20px;" onclick="closeOrder()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Переключение вкладок
+        function switchTab(tab) {
+            const homeView = document.getElementById('home-view');
+            const emptyView = document.getElementById('empty-view');
+            const btnHome = document.getElementById('btn-home');
+            const btnEmpty = document.getElementById('btn-empty');
+
+            if(tab === 'home') {
+                homeView.style.display = 'block';
+                emptyView.style.display = 'none';
+                btnHome.classList.add('active');
+                btnEmpty.classList.remove('active');
+            } else {
+                homeView.style.display = 'none';
+                emptyView.style.display = 'block';
+                btnHome.classList.remove('active');
+                btnEmpty.classList.add('active');
+            }
+        }
+
+        // Модальное окно
+        const overlay = document.getElementById('overlay');
+        const modalForm = document.getElementById('modal-form');
+        const modalSuccess = document.getElementById('modal-success');
+
+        function openOrder(itemName) {
+            document.getElementById('selected-item').innerText = "Вы выбрали: " + itemName;
+            overlay.style.display = 'flex';
+            modalForm.style.display = 'block';
+            modalSuccess.style.display = 'none';
+        }
+
+        function closeOrder() {
+            overlay.style.display = 'none';
+        }
+
+        function processOrder() {
+            // Имитация загрузки
+            const btn = document.querySelector('.confirm-btn');
+            btn.innerText = "Обработка...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                modalForm.style.display = 'none';
+                modalSuccess.style.display = 'block';
+                btn.innerText = "Подтвердить покупку";
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        // Закрытие при клике вне окна
+        window.onclick = function(event) {
+            if (event.target == overlay) closeOrder();
+        }
+    </script>
 </body>
-</html>
+                        </html>
+                        
