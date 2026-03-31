@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg: #05070a;
-            --card: rgba(22, 27, 34, 0.8);
+            --card: rgba(22, 27, 34, 0.85);
             --accent: #00f2ff;
             --accent-glow: rgba(0, 242, 255, 0.4);
             --text: #ffffff;
@@ -18,36 +18,29 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        h1, h2, h3, .logo, .btn-buy, .nav-links button { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
 
-        h1, h2, h3, .logo, .btn-buy, .nav-links button { font-family: 'Orbitron', sans-serif; }
+        /* --- ВХОД С РАЗМЫТИЕМ --- */
+        #main-wrapper { transition: 0.6s filter ease; }
+        .is-blurred { filter: blur(25px); pointer-events: none; }
 
-        /* --- ЭФФЕКТ РАЗМЫТИЯ ПРИ ВХОДЕ --- */
-        #main-wrapper { transition: 0.5s filter ease; }
-        .is-blurred { filter: blur(20px); pointer-events: none; }
-
-        /* --- ОКНО ВХОДА --- */
         #auth-overlay {
             position: fixed; inset: 0; z-index: 10000;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: flex; align-items: center; justify-content: center;
         }
         .auth-card {
             background: var(--card); padding: 40px; border-radius: 24px;
             border: 1px solid var(--accent); width: 90%; max-width: 400px;
-            text-align: center; backdrop-filter: blur(25px);
+            text-align: center; backdrop-filter: blur(20px);
             box-shadow: 0 0 60px var(--accent-glow);
         }
 
         /* --- НАВИГАЦИЯ --- */
         nav {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(13, 17, 23, 0.95); border-bottom: 1px solid var(--border);
+            background: rgba(13, 17, 23, 0.9); border-bottom: 1px solid var(--border);
             padding: 15px 5%; display: flex; align-items: center; justify-content: space-between;
             backdrop-filter: blur(10px);
         }
@@ -55,14 +48,14 @@
         .nav-links { display: flex; gap: 20px; }
         .nav-links button { 
             background: none; border: none; color: #8b949e; cursor: pointer; 
-            font-size: 12px; font-weight: 700; transition: 0.3s;
+            font-size: 11px; font-weight: 700; transition: 0.3s; letter-spacing: 1px;
         }
         .nav-links button.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
         /* --- КАТАЛОГ --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: none; }
-        .container.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .container.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .card {
@@ -70,61 +63,61 @@
             padding: 20px; transition: 0.3s; display: flex; flex-direction: column;
         }
         .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 40px rgba(0, 242, 255, 0.2); }
-        .img-wrap { width: 100%; height: 200px; background: #fff; border-radius: 12px; margin-bottom: 15px; overflow: hidden; padding: 10px; }
-        .img-wrap img { width: 100%; height: 100%; object-fit: contain; }
         
-        .c-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; height: 40px; overflow: hidden; color: #fff; }
+        /* Фикс для фото */
+        .img-wrap { 
+            width: 100%; height: 200px; background: #fff; border-radius: 12px; 
+            margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        .img-wrap img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        
+        .c-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; height: 40px; overflow: hidden; color: #fff; }
         .c-price { font-size: 22px; font-weight: 900; color: var(--accent); margin-top: auto; }
 
         .btn-buy { 
             width: 100%; padding: 14px; border-radius: 10px; border: none; 
             font-weight: 900; cursor: pointer; background: var(--grad); color: white; 
-            margin-top: 15px; font-size: 12px; letter-spacing: 1px;
+            margin-top: 15px; font-size: 11px; letter-spacing: 1px;
         }
 
         /* --- ПЛАВАЮЩАЯ КНОПКА --- */
         .float-cart {
-            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
-            background: var(--grad); border-radius: 22px; display: flex;
+            position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px;
+            background: var(--grad); border-radius: 20px; display: flex;
             align-items: center; justify-content: center; cursor: pointer; z-index: 900;
             box-shadow: 0 10px 30px var(--accent-glow); transition: 0.3s;
         }
-        .float-cart:hover { transform: scale(1.1) rotate(-5deg); }
         .badge { 
             position: absolute; top: -5px; right: -5px; background: #ff4757; 
-            width: 25px; height: 25px; border-radius: 50%; font-size: 12px; 
+            width: 24px; height: 24px; border-radius: 50%; font-size: 12px; 
             display: flex; align-items: center; justify-content: center; font-weight: 900;
-            font-family: 'Inter'; border: 2px solid var(--bg);
+            border: 2px solid var(--bg); font-family: 'Inter';
         }
 
         /* --- МОДАЛКА ОФОРМЛЕНИЯ --- */
         #order-modal {
             position: fixed; inset: 0; z-index: 11000;
-            background: rgba(0,0,0,0.9); display: none;
+            background: rgba(0,0,0,0.92); display: none;
             align-items: center; justify-content: center; backdrop-filter: blur(10px);
         }
         .modal-content {
             background: #161b22; padding: 35px; border-radius: 25px;
             width: 95%; max-width: 450px; border: 1px solid var(--accent);
         }
-        .f-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-family: 'Inter'; }
+        .f-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-size: 15px; }
 
-        /* --- КОРЗИНА --- */
-        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); }
-        .cart-img { width: 60px; height: 60px; object-fit: contain; background: white; border-radius: 8px; }
-
-        /* --- АКЦИИ --- */
-        .promo-card { background: var(--grad); padding: 40px; border-radius: 30px; text-align: center; margin-top: 50px; }
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); }
+        .cart-img { width: 50px; height: 50px; object-fit: contain; background: white; border-radius: 6px; padding: 2px; }
     </style>
 </head>
 <body>
 
     <div id="auth-overlay">
         <div class="auth-card">
-            <h1 style="color: var(--accent); margin-bottom: 10px;">ВХОД</h1>
-            <p style="color: #8b949e; margin-bottom: 25px; font-size: 14px;">Введите ник для доступа к каталогу</p>
-            <input type="text" id="loginInput" class="f-input" placeholder="Ваш никнейм...">
-            <button class="btn-buy" onclick="closeAuth()">ЗАПУСТИТЬ СИСТЕМУ</button>
+            <h1 style="color: var(--accent); margin-bottom: 10px;">PC MASTER</h1>
+            <p style="color: #8b949e; margin-bottom: 25px; font-size: 13px;">ВХОД В СИСТЕМУ</p>
+            <input type="text" id="loginInput" class="f-input" placeholder="Ваш ник...">
+            <button class="btn-buy" onclick="closeAuth()">АВТОРИЗАЦИЯ</button>
         </div>
     </div>
 
@@ -143,55 +136,55 @@
         </div>
 
         <div id="cart-view" class="container">
-            <h1 style="margin-bottom: 30px; letter-spacing: 2px;">ВАШ ЗАКАЗ</h1>
+            <h1 style="margin-bottom: 30px;">КОРЗИНА</h1>
             <div id="cart-list"></div>
             <div id="total-section" style="margin-top: 30px; text-align: right; display: none;">
-                <h2 style="margin-bottom: 20px;">ИТОГО: <span id="total-sum" style="color:var(--accent)">0</span> сом</h2>
-                <button class="btn-buy" style="max-width: 320px;" onclick="openOrder()">ОФОРМИТЬ ПОКУПКУ</button>
+                <h2>ИТОГО: <span id="total-sum" style="color:var(--accent)">0</span> сом</h2>
+                <button class="btn-buy" style="max-width: 320px;" onclick="openOrder()">ОФОРМИТЬ ЗАКАЗ</button>
             </div>
         </div>
 
         <div id="promo-view" class="container">
-            <div class="promo-card">
-                <h1 style="font-size: 40px;">SALE -20%</h1>
-                <p style="margin-top: 10px; font-weight: 700;">На все видеокарты RTX 40-й серии до конца недели!</p>
+            <div style="background: var(--grad); padding: 50px; border-radius: 30px; text-align: center;">
+                <h1 style="font-size: 48px;">SALE</h1>
+                <p style="font-weight: 700; margin-top: 10px;">СКИДКИ НА ВСЕ СБОРКИ ДО 20%</p>
             </div>
-            <h2 style="margin-top: 40px; text-align: center; opacity: 0.3;">НОВЫЕ АКЦИИ СКОРО...</h2>
         </div>
     </div>
 
     <div class="float-cart" onclick="showTab('cart')">
         <div class="badge" id="count">0</div>
-        <span style="font-size: 28px;">🛒</span>
+        <span style="font-size: 26px;">🛒</span>
     </div>
 
     <div id="order-modal">
         <div class="modal-content">
-            <h2 style="color:var(--accent); margin-bottom: 20px; letter-spacing: 1px;">ОФОРМЛЕНИЕ</h2>
+            <h2 style="color:var(--accent); margin-bottom: 20px;">ОФОРМЛЕНИЕ</h2>
             <input type="text" id="form-name" class="f-input" placeholder="ФИО">
-            <input type="email" id="form-email" class="f-input" placeholder="Электронная почта">
-            <input type="tel" id="form-phone" class="f-input" placeholder="Номер телефона">
-            <div id="final-price-info" style="margin: 15px 0; font-weight: 900; font-family:'Orbitron';"></div>
+            <input type="email" id="form-email" class="f-input" placeholder="Email">
+            <input type="tel" id="form-phone" class="f-input" placeholder="Телефон">
+            <div id="final-price-info" style="margin: 15px 0; font-weight: 900; color: var(--accent);"></div>
             <button class="btn-buy" onclick="sendOrder()">ПОДТВЕРДИТЬ</button>
             <button class="btn-buy" style="background: #222; margin-top: 10px;" onclick="closeOrder()">ОТМЕНА</button>
         </div>
     </div>
 
     <script>
+        // ИСПОЛЬЗУЕМ ССЫЛКИ С ОТКРЫТЫХ ТЕХНО-РЕСУРСОВ
         const products = [
-            { id: 1, name: "ASUS ROG Strix RTX 4090", price: 215000, img: "https://dlcdnwebimgs.asus.com/gain/49C8B568-7D9A-46E0-B6D7-90515668478A/w1000/h732" },
-            { id: 2, name: "Intel Core i9-14900KS", price: 62000, img: "https://www.intel.com/content/dam/www/central-libraries/us/en/images/core-i9-badge-13th-gen-transparent-background.png.rendition.intel.web.480.270.png" },
-            { id: 3, name: "G.Skill Trident Z5 64GB DDR5", price: 24500, img: "https://www.gskill.com/_upload/images/163368334811.png" },
-            { id: 4, name: "Samsung 990 Pro 4TB NVMe", price: 38000, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v9p2t0bw/gallery/ru-990-pro-mz-v9p2t0bw-534244948" },
-            { id: 5, name: "Lian Li Lancool III RGB", price: 15500, img: "https://lian-li.com/wp-content/uploads/2022/06/l3-black-01.png" },
-            { id: 6, name: "ASUS ROG Thor 1200W Platinum", price: 32000, img: "https://dlcdnwebimgs.asus.com/gain/9B97F743-A3B3-442E-99C1-D27308945672/w1000/h732" }
+            { id: 1, name: "NVIDIA GeForce RTX 4090 Founders Edition", price: 220000, img: "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4090/geforce-rtx-4090-product-photo-001-cp.png" },
+            { id: 2, name: "Intel Core i9-14900K Processor", price: 65000, img: "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2022-07/core-i9-badge-13th-gen-transparent-background.png" },
+            { id: 3, name: "ASUS ROG Swift 360Hz Monitor", price: 85000, img: "https://dlcdnwebimgs.asus.com/gain/CF8A7668-3E7D-4F60-9F1C-D27308945672/w1000/h732" },
+            { id: 4, name: "Samsung 990 Pro NVMe SSD 2TB", price: 21000, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v9p2t0bw/gallery/ru-990-pro-mz-v9p2t0bw-534244948" },
+            { id: 5, name: "HyperX QuadCast S RGB Mic", price: 16500, img: "https://row.hyperx.com/cdn/shop/products/hyperx_quadcast_s_white_1_main_900x.png" },
+            { id: 6, name: "Razer DeathAdder V3 Pro White", price: 12000, img: "https://assets2.razerzone.com/images/pn-1921/deathadder-v3-pro-white-500x500.png" }
         ];
 
         let cart = [];
 
         function closeAuth() {
             const user = document.getElementById('loginInput').value;
-            if(!user) return alert("Введите никнейм для входа!");
+            if(!user) return alert("Введите ник!");
             document.getElementById('auth-overlay').style.display = "none";
             document.getElementById('main-wrapper').classList.remove('is-blurred');
             document.getElementById('form-name').value = user;
@@ -201,7 +194,9 @@
             const grid = document.getElementById('grid');
             grid.innerHTML = products.map(p => `
                 <div class="card">
-                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=PC+PART'"></div>
+                    <div class="img-wrap">
+                        <img src="${p.img}" alt="${p.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2038/2038933.png'">
+                    </div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
                     <button class="btn-buy" onclick="addToCart(${p.id})">В КОРЗИНУ</button>
@@ -220,17 +215,17 @@
             const list = document.getElementById('cart-list');
             const totalSec = document.getElementById('total-section');
             if(cart.length === 0) {
-                list.innerHTML = "<h3 style='opacity:0.5'>Корзина пуста. Время что-нибудь собрать!</h3>";
+                list.innerHTML = "<h3 style='opacity:0.3'>Корзина пуста</h3>";
                 totalSec.style.display = "none";
                 return;
             }
             totalSec.style.display = "block";
             list.innerHTML = cart.map((p, i) => `
                 <div class="cart-item">
-                    <img src="${p.img}" class="cart-img">
-                    <div style="flex:1"><b style="font-size:14px;">${p.name}</b></div>
-                    <div style="color:var(--accent); font-weight:900;">${p.price.toLocaleString()} сом</div>
-                    <button onclick="remove(${i})" style="background:none; border:none; color:#ff4757; cursor:pointer; font-size:20px; margin-left:15px;">✕</button>
+                    <img src="${p.img}" class="cart-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2038/2038933.png'">
+                    <div style="flex:1"><b>${p.name}</b></div>
+                    <div style="color:var(--accent)">${p.price.toLocaleString()} сом</div>
+                    <button onclick="remove(${i})" style="background:none; border:none; color:#ff4757; cursor:pointer; font-size:20px;">✕</button>
                 </div>
             `).join('');
             const sum = cart.reduce((a, b) => a + b.price, 0);
@@ -248,13 +243,12 @@
             document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
             document.getElementById(t + '-view').classList.add('active');
             document.getElementById('btn-' + t).classList.add('active');
-            window.scrollTo(0,0);
         }
 
         function openOrder() {
             document.getElementById('order-modal').style.display = "flex";
             const sum = cart.reduce((a, b) => a + b.price, 0);
-            document.getElementById('final-price-info').innerText = `СУММА: ${sum.toLocaleString()} СОМ`;
+            document.getElementById('final-price-info').innerText = `К ОПЛАТЕ: ${sum.toLocaleString()} СОМ`;
         }
 
         function closeOrder() { document.getElementById('order-modal').style.display = "none"; }
@@ -262,10 +256,8 @@
         function sendOrder() {
             const name = document.getElementById('form-name').value;
             const phone = document.getElementById('form-phone').value;
-            if(!name || !phone) return alert("Заполните Имя и Телефон!");
-            
-            alert(`СИСТЕМА: Заказ на имя ${name} успешно создан!\nСумма: ${document.getElementById('total-sum').innerText} сом.\nОжидайте звонка на ${phone}.`);
-            
+            if(!name || !phone) return alert("Заполните данные!");
+            alert("Заказ оформлен! Менеджер свяжется с вами.");
             cart = [];
             document.getElementById('count').innerText = "0";
             updateCart();
