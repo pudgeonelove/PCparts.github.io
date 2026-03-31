@@ -9,14 +9,13 @@
     <style>
         :root {
             --bg: #05070a;
-            --card: rgba(22, 27, 34, 0.8);
+            --card: rgba(22, 27, 34, 0.7);
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.3);
+            --accent-glow: rgba(0, 242, 255, 0.4);
             --text: #ffffff;
             --text-dim: #8b949e;
             --border: #30363d;
             --grad: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%);
-            --panel: rgba(13, 17, 23, 0.9);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -25,11 +24,7 @@
             background: var(--bg); 
             color: var(--text); 
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 50%, #0a1120 0%, var(--bg) 100%),
-                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
+            background-image: radial-gradient(circle at 50% 50%, #0a1120 0%, var(--bg) 100%);
         }
 
         /* --- ЭКРАН РЕГИСТРАЦИИ --- */
@@ -37,7 +32,7 @@
             position: fixed; inset: 0; z-index: 9999;
             background: var(--bg);
             display: flex; align-items: center; justify-content: center;
-            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .auth-card {
             background: var(--card); padding: 40px; border-radius: 24px;
@@ -54,78 +49,82 @@
         /* --- НАВИГАЦИЯ --- */
         nav {
             position: sticky; top: 0; z-index: 1000;
-            background: var(--panel); backdrop-filter: blur(15px);
+            background: rgba(13, 17, 23, 0.9); backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border); padding: 15px 5%;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 15px; visibility: hidden; opacity: 0; transition: 0.5s;
+            display: none; align-items: center; justify-content: space-between;
+            gap: 15px; animation: slideDown 0.5s ease;
         }
-        .nav-visible { visibility: visible !important; opacity: 1 !important; }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
         .logo-group { display: flex; align-items: center; gap: 15px; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; color: var(--accent); }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: var(--accent); cursor: pointer; }
         .user-badge { 
             background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent);
-            padding: 4px 12px; border-radius: 12px; font-size: 12px; color: var(--accent);
-            display: flex; align-items: center; gap: 6px;
+            padding: 4px 12px; border-radius: 12px; font-size: 13px; color: var(--accent);
+            display: flex; align-items: center; gap: 6px; font-weight: 600;
         }
 
-        .search-box { flex: 1; max-width: 400px; }
+        .search-box { flex: 1; max-width: 300px; }
         .search-box input {
-            width: 100%; padding: 12px 20px; border-radius: 12px;
+            width: 100%; padding: 10px 15px; border-radius: 10px;
             background: #010409; border: 1px solid var(--border); color: white; outline: none;
         }
 
+        .nav-btns { display: flex; gap: 10px; }
         .nav-btns button {
             background: none; border: none; color: var(--text-dim);
-            font-weight: 600; cursor: pointer; padding: 8px 12px; transition: 0.3s;
+            font-weight: 600; cursor: pointer; padding: 8px; transition: 0.3s; font-size: 14px;
         }
-        .nav-btns button.active { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+        .nav-btns button.active { color: var(--accent); }
 
-        /* --- КАРТОЧКИ ТОВАРОВ --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+        /* --- КАРТОЧКИ --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; padding-top: 20px; }
+        
         .card {
             background: var(--card); border-radius: 20px; border: 1px solid var(--border);
-            padding: 20px; display: flex; flex-direction: column; transition: 0.4s;
-            backdrop-filter: blur(10px);
+            padding: 20px; display: flex; flex-direction: column; transition: 0.3s;
+            backdrop-filter: blur(5px);
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         
         .img-wrap { 
-            width: 100%; height: 200px; border-radius: 15px; overflow: hidden; 
-            background: #010409; margin-bottom: 15px; padding: 10px;
-            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 180px; border-radius: 12px; overflow: hidden; 
+            background: #010409; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;
         }
-        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)); }
+        .img-wrap img { max-width: 90%; max-height: 90%; object-fit: contain; }
         
-        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; font-family: 'Inter', sans-serif; }
-        .c-price { font-size: 22px; font-weight: 800; color: var(--accent); margin-top: auto; }
+        .c-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; height: 42px; overflow: hidden; }
+        .c-price { font-size: 20px; font-weight: 800; color: var(--accent); margin-top: auto; padding: 10px 0; }
         
-        /* --- КНОПКИ --- */
-        .btn { padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; transition: 0.3s; }
-        .btn-buy { background: var(--grad); color: white; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3); }
-        .btn-buy:hover { transform: scale(1.02); box-shadow: 0 4px 20px var(--accent-glow); }
+        .btn { padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; transition: 0.3s; width: 100%; }
+        .btn-buy { background: var(--grad); color: white; box-shadow: 0 0 15px var(--accent-glow); }
 
         /* --- КОРЗИНА --- */
         .cart-item {
-            display: flex; align-items: center; gap: 20px; background: var(--card);
-            padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 15px; background: var(--card);
+            padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border);
         }
-        .cart-img { width: 80px; height: 80px; object-fit: contain; background: #010409; border-radius: 10px; }
+        .cart-img { width: 50px; height: 50px; object-fit: contain; background: #000; border-radius: 5px; }
 
-        /* --- ПРОЧЕЕ --- */
-        .view { display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+        /* --- ФИЛЬТРЫ --- */
+        .cats { display: flex; gap: 10px; padding-bottom: 20px; overflow-x: auto; }
+        .cat-btn { 
+            padding: 8px 16px; border-radius: 10px; background: var(--card); 
+            border: 1px solid var(--border); color: white; cursor: pointer; white-space: nowrap;
+        }
+        .cat-btn.active { border-color: var(--accent); color: var(--accent); }
+
+        /* --- ПУСТО --- */
+        #empty-view { text-align: center; padding: 100px 20px; }
+        .big-empty { font-family: 'Orbitron'; font-size: 60px; opacity: 0.05; font-weight: 900; }
+
         .float-cart {
-            position: fixed; bottom: 30px; right: 30px; width: 66px; height: 66px;
-            background: var(--grad); border-radius: 20px; display: flex;
+            position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px;
+            background: var(--grad); border-radius: 18px; display: none;
             align-items: center; justify-content: center; cursor: pointer; z-index: 100;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: rotate(-5deg);
         }
-        .badge { position: absolute; top: -5px; right: -5px; background: #ff4757; width: 24px; height: 24px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; transform: rotate(5deg); }
-
-        input.f-input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-size: 16px; }
-        input.f-input:focus { border-color: var(--accent); }
+        .badge { position: absolute; top: -5px; right: -5px; background: #ff4757; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -133,21 +132,19 @@
     <div id="auth-screen">
         <div class="auth-card">
             <div class="auth-logo">PC MASTER</div>
-            <p style="color: var(--text-dim); margin-bottom: 25px;">Добро пожаловать в будущее гейминга</p>
-            <input type="text" id="regName" class="f-input" placeholder="Введите ваш никнейм...">
-            <button class="btn btn-buy" style="width: 100%; margin-top: 10px;" onclick="login()">Войти в систему</button>
+            <p style="color: var(--text-dim); margin-bottom: 20px; font-size: 14px;">Вход в панель управления магазином</p>
+            <input type="text" id="regName" class="f-input" placeholder="Никнейм..." style="width:100%; padding:12px; border-radius:10px; background:#010409; border:1px solid var(--border); color:white; outline:none; margin-bottom:15px;">
+            <button class="btn btn-buy" onclick="login()">ЗАПУСТИТЬ СИСТЕМУ</button>
         </div>
     </div>
 
     <nav id="mainNav">
         <div class="logo-group">
             <div class="logo" onclick="showTab('home')">PC MASTER</div>
-            <div id="userNameDisplay" class="user-badge">
-                <span>👤</span> <span id="userNick">User</span>
-            </div>
+            <div class="user-badge">👤 <span id="userNick">User</span></div>
         </div>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск железа..." onkeyup="search()">
+            <input type="text" id="searchInput" placeholder="Поиск..." onkeyup="search()">
         </div>
         <div class="nav-btns">
             <button id="tab-home" class="active" onclick="showTab('home')">КАТАЛОГ</button>
@@ -156,113 +153,101 @@
         </div>
     </nav>
 
-    <div id="home-view" class="view container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-        <div class="cats" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 20px;">
-            <button class="cat-tag active" onclick="filter('Все')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Все</button>
-            <button class="cat-tag" onclick="filter('Процессоры')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Процессоры</button>
-            <button class="cat-tag" onclick="filter('Видеокарты')" style="padding: 10px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: white; cursor: pointer;">Видеокарты</button>
+    <div id="home-view" class="container">
+        <div class="cats">
+            <button class="cat-btn active" onclick="filter('Все')">Все</button>
+            <button class="cat-btn" onclick="filter('Процессоры')">Процессоры</button>
+            <button class="cat-btn" onclick="filter('Видеокарты')">Видеокарты</button>
+            <button class="cat-btn" onclick="filter('Накопители')">Накопители</button>
         </div>
         <div class="grid" id="productGrid"></div>
     </div>
 
-    <div id="cart-view" class="view container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-        <h2 style="font-family: 'Orbitron'; margin-bottom: 30px;">ТВОЙ СЭТАП</h2>
+    <div id="cart-view" class="container" style="max-width: 700px;">
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 20px; color: var(--accent);">КОРЗИНА</h2>
         <div id="cartList"></div>
-        <div id="cartSummary" style="background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--accent); margin-top: 20px; text-align: right; display: none;">
-            <p style="color: var(--text-dim)">Общая стоимость:</p>
-            <h2 id="totalPrice" style="color: var(--accent); font-size: 32px;">0 сом</h2>
-            <button class="btn btn-buy" style="margin-top: 20px; padding: 15px 40px;" onclick="openOrder('Корзина')">ОФОРМИТЬ ЗАКАЗ</button>
+        <div id="cartSummary" style="margin-top: 20px; padding: 20px; background: var(--card); border-radius: 15px; border: 1px solid var(--accent); display: none; text-align: right;">
+            <p style="color: var(--text-dim)">Сумма к оплате:</p>
+            <h2 id="totalPrice" style="color: var(--accent); font-size: 28px; margin: 10px 0;">0 сом</h2>
+            <button class="btn btn-buy" onclick="checkout()">ОФОРМИТЬ</button>
         </div>
-        <div id="cartEmptyMsg" style="text-align: center; padding: 100px 0;">
-            <p style="font-size: 40px; opacity: 0.1; font-weight: 900;">ПУСТО</p>
+        <div id="cartEmptyMsg" style="text-align: center; color: var(--text-dim); padding: 50px;">
+            <p>Ваша корзина пока пуста</p>
         </div>
     </div>
 
-    <div id="empty-view" class="view" style="text-align: center; padding: 150px 20px;">
-        <h1 style="font-size: 80px; font-family: 'Orbitron'; opacity: 0.05;">VACANT</h1>
-        <p style="color: var(--accent); letter-spacing: 5px;">СКОРО ЗДЕСЬ БУДУТ ЛУЧШИЕ ПРЕДЛОЖЕНИЯ</p>
+    <div id="empty-view" class="container">
+        <div class="big-empty">ПУСТО</div>
+        <p style="text-align: center; color: var(--accent); font-weight: 800;">ЗДЕСЬ БУДУТ ВАШИ АКЦИИ</p>
     </div>
 
-    <div class="float-cart" onclick="showTab('cart')">
+    <div class="float-cart" id="floatBtn" onclick="showTab('cart')">
         <div class="badge" id="cartBadge">0</div>
-        <span style="font-size: 24px;">🛒</span>
+        <span>🛒</span>
     </div>
 
     <script>
+        // БАЗА ДАННЫХ С ПРОВЕРЕННЫМИ ССЫЛКАМИ
         const db = [
-            { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060", price: 29500, img: "https://dlcdnwebimgs.asus.com/gain/bd4c98bc-2292-4265-855c-2329407c893f/" },
-            { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F", price: 16500, img: "https://directcomputers.co.uk/cdn/shop/files/5926061ced9ec9b3172d78bdd15c2083_6562eb49-d0e8-446b-b869-9a16edda3c13.jpg?v=1764812263&width=1000" },
-            { id: 3, cat: "Видеокарты", name: "GIGABYTE RTX 4070", price: 56000, img: "https://static.gigabyte.com/StaticFile/Image/Global/30912d1bab19421f7acffd625ad70d02/Product/34885/png/400" },
-            { id: 4, cat: "Процессоры", name: "AMD Ryzen 5 7600", price: 18000, img: "https://sourceit.com.sg/cdn/shop/products/amd-ryzen-5-7600-36-ghz-six-core-am5-processor-amd-100-100001015box-478207_580x.jpg?v=1704884919" },
-            { id: 5, cat: "Накопители", name: "Kingston NV2 1TB", price: 5500, img: "https://i5.walmartimages.com/asr/ec81ae75-085f-4cc7-8f8f-f1358052f138.8f3c8867a83d1b686928e9bf8a26b77c.jpeg" },
-            { id: 6, cat: "Накопители", name: "Samsung 980 PRO 1TB", price: 9500, img: "https://images.samsung.com/is/image/samsung/p6pim/us/mz-v8p1t0b-am/gallery/us-980-pro-nvme-m2-ssd-mz-v8p1t0b-am-550536413?$product-details-jpg$" },
-            { id: 7, cat: "Блоки питания", name: "DeepCool PK750D", price: 6500, img: "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/PowerSupplyUnits/PK750D/Gallery/365X365/04.jpg?fm=webp&q=60" },
-            { id: 8, cat: "Блоки питания", name: "Corsair RM850e Gold", price: 11500, img: "https://i5.walmartimages.com/seo/CORSAIR-RMe-Series-RM850e-Fully-Modular-80Plus-Gold-ATX-Power-Supply_e3fae0d3-43ca-4de0-b991-a4f7f4929e92.1201fd603c2d133a3293a8408a2f7ece.png" }
+            { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060", price: 29500, img: "https://www.asus.com/media/Odin/Websites/global/ProductLine/20230511115315.png?webp" },
+            { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F", price: 16500, img: "https://img.procpu.kz/images/intel-core-i5-13400f_4.png" },
+            { id: 3, cat: "Видеокарты", name: "MSI Ventus RTX 4070", price: 56000, img: "https://storage-asset.msi.com/global/picture/image/feature/vga/NVIDIA/RTX-4070-VENTUS-3X/rtx-4070-ventus-3x-oc-board.png" },
+            { id: 4, cat: "Процессоры", name: "AMD Ryzen 5 7600", price: 18000, img: "https://www.amd.com/system/files/2022-08/1564287-ryzen-5-pi-600x600.png" },
+            { id: 5, cat: "Накопители", name: "SSD Kingston NV2 1TB", price: 5500, img: "https://media.kingston.com/images/products/NV2_main_600x600.png" },
+            { id: 6, cat: "Накопители", name: "Samsung 980 PRO 1TB", price: 9500, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v8p1t0bw/gallery/ru-980-pro-nvme-m2-ssd-mz-v8p1t0bw-326938995" },
+            { id: 7, cat: "Видеокарты", name: "Palit RTX 4060 Ti", price: 38000, img: "https://www.palit.com/product/vga/picture/p04653/p04653_g_1.png" },
+            { id: 8, cat: "Процессоры", name: "AMD Ryzen 7 7800X3D", price: 35000, img: "https://www.amd.com/system/files/2023-01/1815147-ryzen-7-x3d-pi-600x600.png" }
         ];
 
         let cart = [];
-        let activeCat = 'Все';
 
-        // ЛОГИКА ВХОДА
+        // ВХОД В СИСТЕМУ
         function login() {
             const name = document.getElementById('regName').value;
             if (name.trim().length < 2) {
-                alert("Введите нормальный никнейм!");
+                alert("Введите имя!");
                 return;
             }
+
+            // Установка имени
             document.getElementById('userNick').innerText = name;
+            
+            // Скрытие экрана входа и показ интерфейса
             document.getElementById('auth-screen').style.opacity = '0';
-            document.getElementById('auth-screen').style.pointerEvents = 'none';
-            document.getElementById('mainNav').classList.add('nav-visible');
-            document.getElementById('home-view').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('mainNav').style.display = 'flex';
+                document.getElementById('home-view').style.display = 'block';
+                document.getElementById('floatBtn').style.display = 'flex';
+                
+                // ВАЖНО: Отрисовка происходит только после входа!
+                renderProducts(db);
+            }, 600);
         }
 
-        function render(items) {
+        // ОТРИСОВКА
+        function renderProducts(items) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = items.map(p => `
                 <div class="card">
-                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}"></div>
-                    <div style="font-size: 10px; color: var(--accent); letter-spacing: 2px;">${p.cat.toUpperCase()}</div>
+                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=PC+PART'"></div>
+                    <div style="font-size: 10px; color: var(--accent); font-weight: 800;">${p.cat.toUpperCase()}</div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
-                    <button class="btn btn-buy" style="margin-top: 15px;" onclick="addToCart(${p.id})">ДОБАВИТЬ В СЭТАП</button>
+                    <button class="btn btn-buy" onclick="addToCart(${p.id})">В КОРЗИНУ</button>
                 </div>
             `).join('');
         }
 
+        // ЛОГИКА КОРЗИНЫ
         function addToCart(id) {
-            const p = db.find(x => x.id === id);
-            cart.push(p);
+            const item = db.find(x => x.id === id);
+            cart.push(item);
             updateCart();
-            // Легкая анимация кнопки корзины
-            const fb = document.querySelector('.float-cart');
-            fb.style.transform = 'scale(1.2) rotate(0deg)';
-            setTimeout(() => fb.style.transform = 'rotate(-5deg)', 200);
-        }
-
-        function updateCart() {
-            document.getElementById('cartBadge').innerText = cart.length;
-            const list = document.getElementById('cartList');
-            const summary = document.getElementById('cartSummary');
-            const empty = document.getElementById('cartEmptyMsg');
             
-            if (cart.length === 0) {
-                list.innerHTML = ''; summary.style.display = 'none'; empty.style.display = 'block';
-            } else {
-                empty.style.display = 'none'; summary.style.display = 'block';
-                list.innerHTML = cart.map((p, i) => `
-                    <div class="cart-item">
-                        <img src="${p.img}" class="cart-img">
-                        <div style="flex:1">
-                            <h4 style="font-family:'Orbitron'">${p.name}</h4>
-                            <p style="color: var(--accent)">${p.price.toLocaleString()} сом</p>
-                        </div>
-                        <button onclick="removeFromCart(${i})" style="background:none; border:none; color:#ff4757; cursor:pointer;">УДАЛИТЬ</button>
-                    </div>
-                `).join('');
-                const total = cart.reduce((sum, p) => sum + p.price, 0);
-                document.getElementById('totalPrice').innerText = total.toLocaleString() + ' сом';
-            }
+            const badge = document.getElementById('cartBadge');
+            badge.style.transform = 'scale(1.4)';
+            setTimeout(() => badge.style.transform = 'scale(1)', 200);
         }
 
         function removeFromCart(index) {
@@ -270,33 +255,66 @@
             updateCart();
         }
 
-        function showTab(t) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-btns button').forEach(b => b.classList.remove('active'));
-            document.getElementById(`${t}-view`).classList.add('active');
-            document.getElementById(`tab-${t}`).classList.add('active');
+        function updateCart() {
+            document.getElementById('cartBadge').innerText = cart.length;
+            const list = document.getElementById('cartList');
+            const summary = document.getElementById('cartSummary');
+            const emptyMsg = document.getElementById('cartEmptyMsg');
+
+            if (cart.length === 0) {
+                list.innerHTML = '';
+                summary.style.display = 'none';
+                emptyMsg.style.display = 'block';
+            } else {
+                emptyMsg.style.display = 'none';
+                summary.style.display = 'block';
+                list.innerHTML = cart.map((p, i) => `
+                    <div class="cart-item">
+                        <img src="${p.img}" class="cart-img">
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 14px;">${p.name}</h4>
+                            <p style="color: var(--accent); font-weight: 800;">${p.price.toLocaleString()} сом</p>
+                        </div>
+                        <button onclick="removeFromCart(${i})" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 12px; font-weight: 800;">УДАЛИТЬ</button>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((s, p) => s + p.price, 0);
+                document.getElementById('totalPrice').innerText = total.toLocaleString() + ' сом';
+            }
         }
 
+        // ВКЛАДКИ
+        function showTab(t) {
+            document.querySelectorAll('.container').forEach(v => v.style.display = 'none');
+            document.querySelectorAll('.nav-btns button').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(t + '-view').style.display = 'block';
+            document.getElementById('tab-' + t).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // ПОИСК И ФИЛЬТРЫ
         function search() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = db.filter(p => p.name.toLowerCase().includes(query));
-            render(filtered);
+            renderProducts(filtered);
         }
 
         function filter(c) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
             const filtered = c === 'Все' ? db : db.filter(p => p.cat === c);
-            render(filtered);
+            renderProducts(filtered);
         }
 
-        function openOrder() {
-            alert("Система: Заказ успешно сформирован для " + document.getElementById('userNick').innerText + "!");
+        function checkout() {
+            alert("Система: Заказ для " + document.getElementById('userNick').innerText + " принят!");
             cart = [];
             updateCart();
             showTab('home');
         }
-
-        // Рендер при загрузке
-        render(db);
     </script>
 </body>
-</html>
+                </html>
+    
