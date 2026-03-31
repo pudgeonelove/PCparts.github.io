@@ -3,71 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC MASTER | PREMIUM STORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>PC MASTER | ULTIMATE STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg: #05070a;
             --card: rgba(22, 27, 34, 0.8);
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.3);
+            --accent-glow: rgba(0, 242, 255, 0.4);
             --text: #ffffff;
             --border: #30363d;
             --grad: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-        /* --- ФОНОВЫЙ КАТАЛОГ --- */
-        .main-content { filter: blur(0px); transition: 0.5s; }
-        .blurred { filter: blur(15px); pointer-events: none; }
+        h1, h2, h3, .logo, .btn-buy, .nav-links button { font-family: 'Orbitron', sans-serif; }
+
+        /* --- ЭФФЕКТ РАЗМЫТИЯ ПРИ ВХОДЕ --- */
+        #main-wrapper { transition: 0.5s filter ease; }
+        .is-blurred { filter: blur(20px); pointer-events: none; }
 
         /* --- ОКНО ВХОДА --- */
         #auth-overlay {
             position: fixed; inset: 0; z-index: 10000;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             display: flex; align-items: center; justify-content: center;
         }
         .auth-card {
             background: var(--card); padding: 40px; border-radius: 24px;
             border: 1px solid var(--accent); width: 90%; max-width: 400px;
-            text-align: center; backdrop-filter: blur(20px);
-            box-shadow: 0 0 40px var(--accent-glow);
+            text-align: center; backdrop-filter: blur(25px);
+            box-shadow: 0 0 60px var(--accent-glow);
         }
 
         /* --- НАВИГАЦИЯ --- */
         nav {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(13, 17, 23, 0.9); border-bottom: 1px solid var(--border);
+            background: rgba(13, 17, 23, 0.95); border-bottom: 1px solid var(--border);
             padding: 15px 5%; display: flex; align-items: center; justify-content: space-between;
             backdrop-filter: blur(10px);
         }
-        .logo { font-family: 'Orbitron'; color: var(--accent); font-size: 22px; font-weight: 900; letter-spacing: 2px; }
-        .nav-links button { background: none; border: none; color: white; cursor: pointer; margin-left: 20px; font-weight: 700; font-size: 14px; text-transform: uppercase; }
+        .logo { color: var(--accent); font-size: 22px; font-weight: 900; letter-spacing: 3px; cursor: pointer; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links button { 
+            background: none; border: none; color: #8b949e; cursor: pointer; 
+            font-size: 12px; font-weight: 700; transition: 0.3s;
+        }
+        .nav-links button.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
         /* --- КАТАЛОГ --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .container.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .card {
             background: var(--card); border-radius: 20px; border: 1px solid var(--border);
             padding: 20px; transition: 0.3s; display: flex; flex-direction: column;
-            backdrop-filter: blur(5px);
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.15); }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 40px rgba(0, 242, 255, 0.2); }
         .img-wrap { width: 100%; height: 200px; background: #fff; border-radius: 12px; margin-bottom: 15px; overflow: hidden; padding: 10px; }
         .img-wrap img { width: 100%; height: 100%; object-fit: contain; }
         
-        .c-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; height: 45px; overflow: hidden; }
-        .c-price { font-size: 24px; font-weight: 900; color: var(--accent); margin-top: auto; }
+        .c-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; height: 40px; overflow: hidden; color: #fff; }
+        .c-price { font-size: 22px; font-weight: 900; color: var(--accent); margin-top: auto; }
 
         .btn-buy { 
-            width: 100%; padding: 15px; border-radius: 12px; border: none; 
+            width: 100%; padding: 14px; border-radius: 10px; border: none; 
             font-weight: 900; cursor: pointer; background: var(--grad); color: white; 
-            margin-top: 15px; box-shadow: 0 4px 15px var(--accent-glow);
+            margin-top: 15px; font-size: 12px; letter-spacing: 1px;
         }
 
-        /* --- МОДАЛЬНОЕ ОКНО ЗАКАЗА --- */
+        /* --- ПЛАВАЮЩАЯ КНОПКА --- */
+        .float-cart {
+            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
+            background: var(--grad); border-radius: 22px; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; z-index: 900;
+            box-shadow: 0 10px 30px var(--accent-glow); transition: 0.3s;
+        }
+        .float-cart:hover { transform: scale(1.1) rotate(-5deg); }
+        .badge { 
+            position: absolute; top: -5px; right: -5px; background: #ff4757; 
+            width: 25px; height: 25px; border-radius: 50%; font-size: 12px; 
+            display: flex; align-items: center; justify-content: center; font-weight: 900;
+            font-family: 'Inter'; border: 2px solid var(--bg);
+        }
+
+        /* --- МОДАЛКА ОФОРМЛЕНИЯ --- */
         #order-modal {
             position: fixed; inset: 0; z-index: 11000;
             background: rgba(0,0,0,0.9); display: none;
@@ -77,31 +107,34 @@
             background: #161b22; padding: 35px; border-radius: 25px;
             width: 95%; max-width: 450px; border: 1px solid var(--accent);
         }
-        .f-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); background: #010409; color: white; outline: none; }
+        .f-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); background: #010409; color: white; outline: none; font-family: 'Inter'; }
 
-        .view { display: none; }
-        .active { display: block; }
+        /* --- КОРЗИНА --- */
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); }
+        .cart-img { width: 60px; height: 60px; object-fit: contain; background: white; border-radius: 8px; }
 
-        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .cart-img { width: 50px; height: 50px; object-fit: contain; background: white; border-radius: 5px; }
+        /* --- АКЦИИ --- */
+        .promo-card { background: var(--grad); padding: 40px; border-radius: 30px; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
 
     <div id="auth-overlay">
         <div class="auth-card">
-            <h2 style="font-family:'Orbitron'; margin-bottom: 15px; color: var(--accent);">ВХОД</h2>
+            <h1 style="color: var(--accent); margin-bottom: 10px;">ВХОД</h1>
+            <p style="color: #8b949e; margin-bottom: 25px; font-size: 14px;">Введите ник для доступа к каталогу</p>
             <input type="text" id="loginInput" class="f-input" placeholder="Ваш никнейм...">
-            <button class="btn-buy" onclick="closeAuth()">ВОЙТИ</button>
+            <button class="btn-buy" onclick="closeAuth()">ЗАПУСТИТЬ СИСТЕМУ</button>
         </div>
     </div>
 
-    <div id="main-wrapper" class="main-content blurred">
+    <div id="main-wrapper" class="is-blurred">
         <nav>
-            <div class="logo">PC MASTER</div>
+            <div class="logo" onclick="showTab('home')">PC MASTER</div>
             <div class="nav-links">
-                <button onclick="showTab('home')">Каталог</button>
-                <button onclick="showTab('cart')">Корзина (<span id="count">0</span>)</button>
+                <button id="btn-home" class="active" onclick="showTab('home')">КАТАЛОГ</button>
+                <button id="btn-cart" onclick="showTab('cart')">КОРЗИНА</button>
+                <button id="btn-promo" onclick="showTab('promo')">АКЦИИ</button>
             </div>
         </nav>
 
@@ -110,56 +143,65 @@
         </div>
 
         <div id="cart-view" class="container">
-            <h1 style="font-family:'Orbitron'; color: var(--accent); margin-bottom: 30px;">КОРЗИНА</h1>
+            <h1 style="margin-bottom: 30px; letter-spacing: 2px;">ВАШ ЗАКАЗ</h1>
             <div id="cart-list"></div>
             <div id="total-section" style="margin-top: 30px; text-align: right; display: none;">
-                <h2>ИТОГО: <span id="total-sum" style="color:var(--accent)">0</span> сом</h2>
-                <button class="btn-buy" style="max-width: 300px;" onclick="openOrder()">ОФОРМИТЬ ЗАКАЗ</button>
+                <h2 style="margin-bottom: 20px;">ИТОГО: <span id="total-sum" style="color:var(--accent)">0</span> сом</h2>
+                <button class="btn-buy" style="max-width: 320px;" onclick="openOrder()">ОФОРМИТЬ ПОКУПКУ</button>
             </div>
         </div>
+
+        <div id="promo-view" class="container">
+            <div class="promo-card">
+                <h1 style="font-size: 40px;">SALE -20%</h1>
+                <p style="margin-top: 10px; font-weight: 700;">На все видеокарты RTX 40-й серии до конца недели!</p>
+            </div>
+            <h2 style="margin-top: 40px; text-align: center; opacity: 0.3;">НОВЫЕ АКЦИИ СКОРО...</h2>
+        </div>
+    </div>
+
+    <div class="float-cart" onclick="showTab('cart')">
+        <div class="badge" id="count">0</div>
+        <span style="font-size: 28px;">🛒</span>
     </div>
 
     <div id="order-modal">
         <div class="modal-content">
-            <h2 style="font-family:'Orbitron'; color:var(--accent); margin-bottom: 20px;">ДАННЫЕ ЗАКАЗА</h2>
-            <p style="margin-bottom: 15px; font-size: 14px; color: #8b949e;">Пожалуйста, заполните форму для связи менеджера с вами.</p>
-            <input type="text" id="form-name" class="f-input" placeholder="Ваше полное имя">
-            <input type="email" id="form-email" class="f-input" placeholder="Email адрес">
-            <input type="tel" id="form-phone" class="f-input" placeholder="+996 (___) __-__-__">
-            <div id="final-info" style="margin: 15px 0; font-weight: 700;"></div>
-            <button class="btn-buy" onclick="sendOrder()">ПОДТВЕРДИТЬ ПОКУПКУ</button>
+            <h2 style="color:var(--accent); margin-bottom: 20px; letter-spacing: 1px;">ОФОРМЛЕНИЕ</h2>
+            <input type="text" id="form-name" class="f-input" placeholder="ФИО">
+            <input type="email" id="form-email" class="f-input" placeholder="Электронная почта">
+            <input type="tel" id="form-phone" class="f-input" placeholder="Номер телефона">
+            <div id="final-price-info" style="margin: 15px 0; font-weight: 900; font-family:'Orbitron';"></div>
+            <button class="btn-buy" onclick="sendOrder()">ПОДТВЕРДИТЬ</button>
             <button class="btn-buy" style="background: #222; margin-top: 10px;" onclick="closeOrder()">ОТМЕНА</button>
         </div>
     </div>
 
     <script>
-        // ИСПОЛЬЗУЕМ ПРЯМЫЕ URL ИЗ ПОИСКОВЫХ ЗАПРОСОВ
         const products = [
-            { id: 1, name: "ASUS ROG Strix GeForce RTX 4080", price: 125000, img: "https://dlcdnwebimgs.asus.com/gain/3D7A411B-6B8B-463F-B6E3-9118BA183748/w1000/h732" },
-            { id: 2, name: "Intel Core i9-14900K Box", price: 58000, img: "https://www.intel.com/content/dam/www/central-libraries/us/en/images/core-i9-badge-13th-gen-transparent-background.png.rendition.intel.web.480.270.png" },
-            { id: 3, name: "Kingston FURY Renegade 32GB DDR5", price: 14500, img: "https://media.kingston.com/images/products/renegade-ddr5-dimm-1-tn.png" },
-            { id: 4, name: "Samsung 990 PRO 2TB NVMe", price: 19800, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v9p2t0bw/gallery/ru-990-pro-mz-v9p2t0bw-534244948" },
-            { id: 5, name: "MSI MAG Z790 TOMAHAWK WIFI", price: 28000, img: "https://storage-asset.msi.com/global/picture/image/feature/mb/Z790/TOMAHAWK/z790-tomahawk-wifi-board-1.png" },
-            { id: 6, name: "DeepCool PQ1000M 1000W Gold", price: 12500, img: "https://ru.deepcool.com/download/png/78/14101.png" }
+            { id: 1, name: "ASUS ROG Strix RTX 4090", price: 215000, img: "https://dlcdnwebimgs.asus.com/gain/49C8B568-7D9A-46E0-B6D7-90515668478A/w1000/h732" },
+            { id: 2, name: "Intel Core i9-14900KS", price: 62000, img: "https://www.intel.com/content/dam/www/central-libraries/us/en/images/core-i9-badge-13th-gen-transparent-background.png.rendition.intel.web.480.270.png" },
+            { id: 3, name: "G.Skill Trident Z5 64GB DDR5", price: 24500, img: "https://www.gskill.com/_upload/images/163368334811.png" },
+            { id: 4, name: "Samsung 990 Pro 4TB NVMe", price: 38000, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v9p2t0bw/gallery/ru-990-pro-mz-v9p2t0bw-534244948" },
+            { id: 5, name: "Lian Li Lancool III RGB", price: 15500, img: "https://lian-li.com/wp-content/uploads/2022/06/l3-black-01.png" },
+            { id: 6, name: "ASUS ROG Thor 1200W Platinum", price: 32000, img: "https://dlcdnwebimgs.asus.com/gain/9B97F743-A3B3-442E-99C1-D27308945672/w1000/h732" }
         ];
 
         let cart = [];
 
-        // Вход
         function closeAuth() {
             const user = document.getElementById('loginInput').value;
-            if(!user) return alert("Введите имя!");
+            if(!user) return alert("Введите никнейм для входа!");
             document.getElementById('auth-overlay').style.display = "none";
-            document.getElementById('main-wrapper').classList.remove('blurred');
+            document.getElementById('main-wrapper').classList.remove('is-blurred');
             document.getElementById('form-name').value = user;
         }
 
-        // Рендер каталога
-        function renderItems() {
+        function renderProducts() {
             const grid = document.getElementById('grid');
             grid.innerHTML = products.map(p => `
                 <div class="card">
-                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=Hardware'"></div>
+                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=PC+PART'"></div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
                     <button class="btn-buy" onclick="addToCart(${p.id})">В КОРЗИНУ</button>
@@ -178,7 +220,7 @@
             const list = document.getElementById('cart-list');
             const totalSec = document.getElementById('total-section');
             if(cart.length === 0) {
-                list.innerHTML = "<h3>Ваша корзина пуста... пока что.</h3>";
+                list.innerHTML = "<h3 style='opacity:0.5'>Корзина пуста. Время что-нибудь собрать!</h3>";
                 totalSec.style.display = "none";
                 return;
             }
@@ -186,9 +228,9 @@
             list.innerHTML = cart.map((p, i) => `
                 <div class="cart-item">
                     <img src="${p.img}" class="cart-img">
-                    <div style="flex:1"><b>${p.name}</b></div>
-                    <div style="color:var(--accent)">${p.price.toLocaleString()} сом</div>
-                    <button onclick="remove(${i})" style="background:none; border:none; color:red; cursor:pointer; margin-left:15px;">✕</button>
+                    <div style="flex:1"><b style="font-size:14px;">${p.name}</b></div>
+                    <div style="color:var(--accent); font-weight:900;">${p.price.toLocaleString()} сом</div>
+                    <button onclick="remove(${i})" style="background:none; border:none; color:#ff4757; cursor:pointer; font-size:20px; margin-left:15px;">✕</button>
                 </div>
             `).join('');
             const sum = cart.reduce((a, b) => a + b.price, 0);
@@ -202,30 +244,27 @@
         }
 
         function showTab(t) {
-            document.getElementById('home-view').classList.remove('active');
-            document.getElementById('cart-view').classList.remove('active');
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
             document.getElementById(t + '-view').classList.add('active');
+            document.getElementById('btn-' + t).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        // Оформление
         function openOrder() {
             document.getElementById('order-modal').style.display = "flex";
             const sum = cart.reduce((a, b) => a + b.price, 0);
-            document.getElementById('final-info').innerText = `К оплате: ${sum.toLocaleString()} сом (товаров: ${cart.length})`;
+            document.getElementById('final-price-info').innerText = `СУММА: ${sum.toLocaleString()} СОМ`;
         }
 
-        function closeOrder() {
-            document.getElementById('order-modal').style.display = "none";
-        }
+        function closeOrder() { document.getElementById('order-modal').style.display = "none"; }
 
         function sendOrder() {
             const name = document.getElementById('form-name').value;
-            const email = document.getElementById('form-email').value;
             const phone = document.getElementById('form-phone').value;
-
-            if(!name || !email || !phone) return alert("Заполните все данные для связи!");
-
-            alert(`Спасибо, ${name}!\nЗаказ на сумму ${document.getElementById('total-sum').innerText} сом принят.\nМы свяжемся с вами по номеру ${phone}`);
+            if(!name || !phone) return alert("Заполните Имя и Телефон!");
+            
+            alert(`СИСТЕМА: Заказ на имя ${name} успешно создан!\nСумма: ${document.getElementById('total-sum').innerText} сом.\nОжидайте звонка на ${phone}.`);
             
             cart = [];
             document.getElementById('count').innerText = "0";
@@ -234,7 +273,7 @@
             showTab('home');
         }
 
-        renderItems();
+        renderProducts();
     </script>
 </body>
 </html>
