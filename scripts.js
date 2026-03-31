@@ -18,7 +18,7 @@ function showTab(n){
  document.getElementById('tab1').style.display = n===1 ? 'block':'none';
  document.getElementById('tab2').style.display = n===2 ? 'block':'none';
 
- let btns = document.getElementsByClassName('tab-button');
+ let btns=document.getElementsByClassName('tab-button');
  for(let i=0;i<btns.length;i++) btns[i].classList.remove('active');
  btns[n-1].classList.add('active');
 }
