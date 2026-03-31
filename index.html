@@ -15,13 +15,25 @@
 
 <div class="tabs">
 <button class="tab-button active" onclick="showTab(1)">Каталог</button>
-<button class="tab-button" onclick="showTab(2)">О нас</button>
+<button class="tab-button" onclick="showTab(2)">Вкладка 2</button>
 </div>
 
 <div id="tab1">
+
+<div class="controls">
+<input class="search" id="searchInput" placeholder="Поиск..." onkeyup="filterProducts()">
+<select class="category" id="categorySelect" onchange="filterProducts()">
+<option value="all">Все категории</option>
+<option value="gpu">Видеокарты</option>
+<option value="cpu">Процессоры</option>
+<option value="storage">Накопители</option>
+<option value="psu">Блоки питания</option>
+</select>
+</div>
+
 <div class="grid">
 
-<div class="card">
+<div class="card" data-name="rtx 3060" data-category="gpu">
 <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704">
 <div class="card-content">
 <h3>RTX 3060</h3>
@@ -30,7 +42,16 @@
 </div>
 </div>
 
-<div class="card">
+<div class="card" data-name="rtx 3070" data-category="gpu">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
+<div class="card-content">
+<h3>RTX 3070</h3>
+<p class="price">40 000 сом</p>
+<button onclick="buy('RTX 3070')">Купить</button>
+</div>
+</div>
+
+<div class="card" data-name="ryzen 5 5600" data-category="cpu">
 <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
 <div class="card-content">
 <h3>Ryzen 5 5600</h3>
@@ -39,21 +60,12 @@
 </div>
 </div>
 
-<div class="card">
+<div class="card" data-name="ssd 1tb" data-category="storage">
 <img src="https://images.unsplash.com/photo-1585079542156-2755d9c8a094">
 <div class="card-content">
-<h3>SSD 1TB NVMe</h3>
+<h3>SSD 1TB</h3>
 <p class="price">6 000 сом</p>
 <button onclick="buy('SSD 1TB')">Купить</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1587206668287-8f0c6f4a5f67">
-<div class="card-content">
-<h3>750W Gold PSU</h3>
-<p class="price">5 000 сом</p>
-<button onclick="buy('750W PSU')">Купить</button>
 </div>
 </div>
 
@@ -61,8 +73,7 @@
 </div>
 
 <div id="tab2" style="display:none;">
-<h2>О нас</h2>
-<p>PC Parts — магазин комплектующих с удобным подбором ПК.</p>
+<h2>Пусто</h2>
 </div>
 
 </div>
