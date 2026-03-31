@@ -1,200 +1,48 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PC Parts</title>
-<style>
-body { margin:0; font-family:'Segoe UI',sans-serif; background:#0b102a; color:#fff;}
-header { background:linear-gradient(90deg,#2563eb,#06b6d4); padding:20px; text-align:center; font-size:28px; font-weight:bold;}
-.container { max-width:1200px; margin:auto; padding:20px;}
-.tabs { display:flex; justify-content:center; gap:10px; margin:20px 0;}
-.tab-button { background:#1e293b; border:none; padding:12px 25px; border-radius:10px; color:white; cursor:pointer;}
-.tab-button.active { background:#2563eb;}
-.controls { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
-.search { flex:1; padding:10px; border-radius:8px; border:none;}
-.category, .sort { padding:10px; border-radius:8px; border:none; background:#1e293b; color:white;}
-.grid { display:flex; flex-wrap:wrap; gap:20px; max-height:600px; overflow-y:auto; padding-right:10px;}
-.card { background:#1e293b; border-radius:15px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.5); transition:0.3s; width:calc(33% - 20px);}
-.card:hover { transform:translateY(-8px);}
-.card img { width:100%; height:180px; object-fit:cover;}
-.card-content { padding:15px;}
-.price { color:#22c55e; font-weight:bold;}
-button { background:#2563eb; border:none; padding:10px; border-radius:8px; color:white; width:100%; cursor:pointer;}
-.modal { display:none; position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;}
-.modal-content { background:white; color:black; padding:20px; border-radius:10px; width:300px;}
-input { width:100%; padding:10px; margin:5px 0;}
-.close { background:red; margin-top:10px; }
-</style>
+    <meta charset="UTF-8">
+    <title>PC Parts | Магазин комплектующих</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav>
+        <div class="logo">PC PARTS</div>
+        <div class="nav-links">
+            <a href="#" onclick="showPage('home')">Главная</a>
+            <a href="#" onclick="showPage('empty')">Корзина</a>
+        </div>
+    </nav>
 
-<header>PC Parts - Магазин комплектующих</header>
+    <main id="home-page">
+        <h1>Комплектующие для ПК</h1>
+        <div class="grid">
+            <div class="card">
+                <img src="https://via.placeholder.com/200x150?text=RTX+4090" alt="GPU">
+                <h3>NVIDIA RTX 4090</h3>
+                <p>Мощная видеокарта для гейминга.</p>
+                <div class="price">150 000 сом</div>
+                <button onclick="openModal('NVIDIA RTX 4090')">Купить</button>
+            </div>
+            </div>
+    </main>
 
-<div class="container">
+    <main id="empty-page" style="display:none;">
+        <h1>Ваша корзина</h1>
+        <p>пусто</p>
+    </main>
 
-<div class="tabs">
-<button class="tab-button active" onclick="showTab(1)">Каталог</button>
-<button class="tab-button" onclick="showTab(2)">Вкладка 2</button>
-</div>
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Оформление заказа</h2>
+            <p>Вы выбрали: <strong id="itemName"></strong></p>
+            <input type="text" placeholder="Ваше имя">
+            <input type="tel" placeholder="Номер телефона">
+            <button onclick="confirmPurchase()">Подтвердить заказ</button>
+        </div>
+    </div>
 
-<!-- Вкладка 1 -->
-<div id="tab1">
-
-<div class="controls">
-<input class="search" id="searchInput" placeholder="Поиск..." onkeyup="filterProducts()">
-<select class="category" id="categorySelect" onchange="filterProducts()">
-<option value="all">Все категории</option>
-<option value="gpu">Видеокарты</option>
-<option value="cpu">Процессоры</option>
-<option value="storage">Накопители</option>
-<option value="psu">Блоки питания</option>
-</select>
-<select class="sort" id="sortSelect" onchange="sortProducts()">
-<option value="default">Сортировка</option>
-<option value="asc">Цена: по возрастанию</option>
-<option value="desc">Цена: по убыванию</option>
-</select>
-</div>
-
-<div class="grid" id="productGrid">
-<!-- GPU -->
-<div class="card" data-name="rtx 3060" data-category="gpu" data-price="25000">
-<img src="https://images.unsplash.com/photo-1591488320449-011701bb6704">
-<div class="card-content"><h3>RTX 3060</h3><p class="price">25 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="rtx 3070" data-category="gpu" data-price="40000">
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
-<div class="card-content"><h3>RTX 3070</h3><p class="price">40 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="rx 6600" data-category="gpu" data-price="22000">
-<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
-<div class="card-content"><h3>RX 6600</h3><p class="price">22 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<!-- CPU -->
-<div class="card" data-name="ryzen 5 5600" data-category="cpu" data-price="14000">
-<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
-<div class="card-content"><h3>Ryzen 5 5600</h3><p class="price">14 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="i5 10400f" data-category="cpu" data-price="12000">
-<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
-<div class="card-content"><h3>i5-10400F</h3><p class="price">12 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="i7 12700k" data-category="cpu" data-price="28000">
-<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
-<div class="card-content"><h3>i7-12700K</h3><p class="price">28 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<!-- Storage -->
-<div class="card" data-name="ssd 1tb" data-category="storage" data-price="6000">
-<img src="https://images.unsplash.com/photo-1585079542156-2755d9c8a094">
-<div class="card-content"><h3>SSD 1TB</h3><p class="price">6 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="ssd 2tb" data-category="storage" data-price="12000">
-<img src="https://images.unsplash.com/photo-1585079542156-2755d9c8a094">
-<div class="card-content"><h3>SSD 2TB</h3><p class="price">12 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="hdd 2tb" data-category="storage" data-price="4000">
-<img src="https://images.unsplash.com/photo-1581093588401-22c7c3d2a0f7">
-<div class="card-content"><h3>HDD 2TB</h3><p class="price">4 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<!-- PSU -->
-<div class="card" data-name="600w bronze" data-category="psu" data-price="3000">
-<img src="https://images.unsplash.com/photo-1587206668287-8f0c6f4a5f67">
-<div class="card-content"><h3>600W Bronze</h3><p class="price">3 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="750w gold" data-category="psu" data-price="5000">
-<img src="https://images.unsplash.com/photo-1587206668287-8f0c6f4a5f67">
-<div class="card-content"><h3>750W Gold</h3><p class="price">5 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-<div class="card" data-name="850w gold" data-category="psu" data-price="7000">
-<img src="https://images.unsplash.com/photo-1587206668287-8f0c6f4a5f67">
-<div class="card-content"><h3>850W Gold</h3><p class="price">7 000 сом</p><button class="buyBtn">Купить</button></div>
-</div>
-
-</div>
-</div>
-
-<!-- Вкладка 2 -->
-<div id="tab2" style="display:none;">
-<h2 style="text-align:center; margin-top:50px;">Пусто</h2>
-</div>
-
-</div>
-
-<!-- Модалка -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<h3>Оформление заказа</h3>
-<p id="product"></p>
-<input placeholder="Имя">
-<input placeholder="Телефон">
-<input placeholder="Адрес">
-<button onclick="submitOrder()">Отправить</button>
-<button class="close" onclick="closeModal()">Закрыть</button>
-</div>
-</div>
-
-<script>
-function showTab(n){
- document.getElementById('tab1').style.display = n===1 ? 'block':'none';
- document.getElementById('tab2').style.display = n===2 ? 'block':'none';
- let btns=document.getElementsByClassName('tab-button');
- for(let i=0;i<btns.length;i++) btns[i].classList.remove('active');
- btns[n-1].classList.add('active');
-}
-
-function filterProducts(){
- let input = document.getElementById('searchInput').value.toLowerCase();
- let category = document.getElementById('categorySelect').value;
- let cards = document.getElementsByClassName('card');
- for(let i=0;i<cards.length;i++){
-  let name = cards[i].getAttribute('data-name').toLowerCase();
-  let cat = cards[i].getAttribute('data-category');
-  cards[i].style.display = ((name.includes(input)) && (category==='all' || cat===category)) ? 'block' : 'none';
- }
-}
-
-function sortProducts(){
- let sort = document.getElementById('sortSelect').value;
- let grid = document.getElementById('productGrid');
- let cards = Array.from(grid.getElementsByClassName('card'));
- cards.sort((a,b)=>{
-  let priceA = parseInt(a.getAttribute('data-price'));
-  let priceB = parseInt(b.getAttribute('data-price'));
-  if(sort==='asc') return priceA - priceB;
-  if(sort==='desc') return priceB - priceA;
-  return 0;
- });
- cards.forEach(c=>grid.appendChild(c));
-}
-
-function buy(product){
- document.getElementById('modal').style.display='flex';
- document.getElementById('product').innerText='Товар: '+product;
-}
-
-function submitOrder(){
- alert('Заявка отправлена!');
- closeModal();
-}
-
-function closeModal(){
- document.getElementById('modal').style.display='none';
-}
-
-window.onclick=function(e){
- if(e.target.id==='modal'){ closeModal(); }
-}
-
-// Привязка кнопок Купить
-let buyButtons = document.getElementsByClassName('buyBtn');
-for(let btn of buyButtons){
- btn.addEventListener('click', function(){
-   let product = this.parentElement.parentElement.getAttribute('data-name');
-   buy(product);
- });
-}
-</script>
-
+    <script src="script.js"></script>
 </body>
- </html>
+</html>
