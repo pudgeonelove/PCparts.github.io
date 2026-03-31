@@ -1,82 +1,72 @@
-<!DOCTYPE html><html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PC Parts</title>
-<style>
-body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0f2f; color: #f8f8f8; }
-header { background: linear-gradient(90deg, #1e40af, #3b82f6); padding: 20px; text-align: center; font-size: 28px; font-weight: bold; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: sticky; top:0; z-index:100; }
-header::after { content:''; display:block; height:4px; width:100%; background: linear-gradient(to right, #facc15, #22c55e, #3b82f6); margin-top:5px; border-radius:2px; }
-.tabs { display:flex; justify-content:center; margin-top:20px; }
-.tab-button { background:#1e293b; color:#f8f8f8; border:none; padding:12px 25px; margin:0 10px; border-radius:10px; cursor:pointer; font-weight:bold; transition:0.3s; }
-.tab-button:hover { background:#3b82f6; transform: scale(1.05); }
-.tab-button.active { background:#2563eb; color:#fff; }
-.container { padding: 20px; max-width: 1200px; margin: auto; }
-h2 { margin-top: 40px; color: #60a5fa; border-bottom: 2px solid #3b82f6; display: inline-block; padding-bottom: 5px; font-size: 24px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; }
-.card { background: linear-gradient(145deg, #1e293b, #334155); padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; cursor: pointer; }
-.card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.6); }
-.card h3 { margin-top: 0; color: #facc15; font-size: 20px; }
-.price { font-weight: bold; color: #22c55e; margin: 10px 0; font-size: 18px; }
-button { background: #3b82f6; border: none; padding: 12px 20px; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.3s, transform 0.2s; width: 100%; font-size: 16px; }
-button:hover { background: #2563eb; transform: scale(1.05); }
-button:active { transform: scale(0.95); }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.3s; }
-.modal-content { background: #f8f8f8; color: #000; padding: 30px; border-radius: 20px; width: 400px; max-width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); animation: slideIn 0.3s; }
-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; }
-.card::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(120deg, rgba(255,255,255,0.07), transparent 70%); pointer-events:none; border-radius:15px; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #0a0f2f; }
-::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 5px; }
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-@keyframes slideIn { from {transform: translateY(-50px); opacity:0;} to {transform: translateY(0); opacity:1;} }
-</style>
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>PC Parts - Каталог комплектующих</header>
+
+<header>PC Parts - Магазин комплектующих</header>
+
+<div class="container">
+
 <div class="tabs">
 <button class="tab-button active" onclick="showTab(1)">Каталог</button>
-<button class="tab-button" onclick="showTab(2)">Вторая вкладка</button>
+<button class="tab-button" onclick="showTab(2)">О нас</button>
 </div>
-<div class="container">
+
 <div id="tab1">
-<h2>Видеокарты</h2>
 <div class="grid">
-<div class="card"><h3>RTX 3060</h3><p class="price">25 000 сом</p><button onclick="buy('RTX 3060')">Купить</button></div>
-<div class="card"><h3>GTX 1660 Ti</h3><p class="price">15 000 сом</p><button onclick="buy('GTX 1660 Ti')">Купить</button></div>
-<div class="card"><h3>RX 6600</h3><p class="price">22 000 сом</p><button onclick="buy('RX 6600')">Купить</button></div>
-<div class="card"><h3>RTX 3070</h3><p class="price">40 000 сом</p><button onclick="buy('RTX 3070')">Купить</button></div>
-<div class="card"><h3>RX 6700 XT</h3><p class="price">38 000 сом</p><button onclick="buy('RX 6700 XT')">Купить</button></div>
-</div>
-<h2>Процессоры</h2>
-<div class="grid">
-<div class="card"><h3>i5-10400F</h3><p class="price">12 000 сом</p><button onclick="buy('i5-10400F')">Купить</button></div>
-<div class="card"><h3>Ryzen 5 5600</h3><p class="price">14 000 сом</p><button onclick="buy('Ryzen 5 5600')">Купить</button></div>
-<div class="card"><h3>i7-12700K</h3><p class="price">28 000 сом</p><button onclick="buy('i7-12700K')">Купить</button></div>
-<div class="card"><h3>Ryzen 7 5800X</h3><p class="price">30 000 сом</p><button onclick="buy('Ryzen 7 5800X')">Купить</button></div>
-<div class="card"><h3>i9-13900K</h3><p class="price">60 000 сом</p><button onclick="buy('i9-13900K')">Купить</button></div>
-</div>
-<h2>Накопители</h2>
-<div class="grid">
-<div class="card"><h3>SSD 1TB NVMe</h3><p class="price">6 000 сом</p><button onclick="buy('SSD 1TB')">Купить</button></div>
-<div class="card"><h3>SSD 512GB</h3><p class="price">3 500 сом</p><button onclick="buy('SSD 512GB')">Купить</button></div>
-<div class="card"><h3>HDD 2TB</h3><p class="price">4 000 сом</p><button onclick="buy('HDD 2TB')">Купить</button></div>
-<div class="card"><h3>SSD 2TB NVMe</h3><p class="price">12 000 сом</p><button onclick="buy('SSD 2TB')">Купить</button></div>
-<div class="card"><h3>HDD 4TB</h3><p class="price">7 000 сом</p><button onclick="buy('HDD 4TB')">Купить</button></div>
-</div>
-<h2>Блоки питания</h2>
-<div class="grid">
-<div class="card"><h3>600W Bronze</h3><p class="price">3 000 сом</p><button onclick="buy('600W Bronze')">Купить</button></div>
-<div class="card"><h3>750W Gold</h3><p class="price">5 000 сом</p><button onclick="buy('750W Gold')">Купить</button></div>
-<div class="card"><h3>850W Gold</h3><p class="price">7 000 сом</p><button onclick="buy('850W Gold')">Купить</button></div>
-<div class="card"><h3>1000W Platinum</h3><p class="price">12 000 сом</p><button onclick="buy('1000W Platinum')">Купить</button></div>
-<div class="card"><h3>500W Bronze</h3><p class="price">2 500 сом</p><button onclick="buy('500W Bronze')">Купить</button></div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1591488320449-011701bb6704">
+<div class="card-content">
+<h3>RTX 3060</h3>
+<p class="price">25 000 сом</p>
+<button onclick="buy('RTX 3060')">Купить</button>
 </div>
 </div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
+<div class="card-content">
+<h3>Ryzen 5 5600</h3>
+<p class="price">14 000 сом</p>
+<button onclick="buy('Ryzen 5 5600')">Купить</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1585079542156-2755d9c8a094">
+<div class="card-content">
+<h3>SSD 1TB NVMe</h3>
+<p class="price">6 000 сом</p>
+<button onclick="buy('SSD 1TB')">Купить</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587206668287-8f0c6f4a5f67">
+<div class="card-content">
+<h3>750W Gold PSU</h3>
+<p class="price">5 000 сом</p>
+<button onclick="buy('750W PSU')">Купить</button>
+</div>
+</div>
+
+</div>
+</div>
+
 <div id="tab2" style="display:none;">
-<h2>Вторая вкладка пока пустая</h2>
+<h2>О нас</h2>
+<p>PC Parts — магазин комплектующих с удобным подбором ПК.</p>
 </div>
+
 </div>
+
 <div class="modal" id="modal">
 <div class="modal-content">
 <h3>Оформление заказа</h3>
@@ -87,27 +77,7 @@ input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 
 <button onclick="submitOrder()">Отправить</button>
 </div>
 </div>
-<script>
-function buy(product){
- document.getElementById('modal').style.display='flex';
- document.getElementById('product').innerText='Товар: '+product;
-}
-function submitOrder(){
- alert('Заявка отправлена (имитация работы сайта)');
- document.getElementById('modal').style.display='none';
-}
-window.onclick = function(e){
- if(e.target.id==='modal'){
-  document.getElementById('modal').style.display='none';
- }
-}
-function showTab(n){
- document.getElementById('tab1').style.display = n===1 ? 'block' : 'none';
- document.getElementById('tab2').style.display = n===2 ? 'block' : 'none';
- const buttons = document.getElementsByClassName('tab-button');
- for(let i=0;i<buttons.length;i++) buttons[i].classList.remove('active');
- buttons[n-1].classList.add('active');
-}
-</script>
+
+<script src="script.js"></script>
 </body>
- </html>
+</html>
