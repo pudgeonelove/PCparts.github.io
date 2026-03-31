@@ -67,8 +67,8 @@
         }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         
-        .img-wrap { width: 100%; height: 180px; border-radius: 10px; overflow: hidden; background: #010409; margin-bottom: 15px; }
-        .img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+        .img-wrap { width: 100%; height: 180px; border-radius: 10px; overflow: hidden; background: #010409; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         .c-cat { font-size: 11px; color: var(--accent); text-transform: uppercase; margin-bottom: 5px; }
         .c-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; min-height: 44px; }
@@ -93,7 +93,7 @@
             background: var(--card); padding: 15px; border-radius: 12px;
             margin-bottom: 10px; border: 1px solid var(--border);
         }
-        .cart-img { width: 60px; height: 60px; border-radius: 5px; object-fit: cover; }
+        .cart-img { width: 60px; height: 60px; border-radius: 5px; object-fit: contain; background: #010409; padding: 5px; }
         .cart-info { flex: 1; }
         .del-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-size: 14px; }
 
@@ -182,15 +182,16 @@
     </div>
 
     <script>
+        // БАЗА ДАННЫХ С НОВЫМИ ПРОВЕРЕННЫМИ ССЫЛКАМИ НА КАРТИНКИ
         const db = [
-            { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060", price: 29500, img: "https://dlcdnimgs.asus.com/gain/358872CB-B536-40D4-B474-061730B09A9B/w480" },
-            { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F", price: 16500, img: "https://www.intel.ru/content/dam/www/central-libraries/us/en/images/core-i5-badge-13th-gen-transparent-background.png.rendition.intel.web.480.270.png" },
-            { id: 3, cat: "Видеокарты", name: "GIGABYTE RTX 4070", price: 56000, img: "https://www.gigabyte.com/Image/4982c70093864491ba68134747209930/Product/35402/webp/500" },
-            { id: 4, cat: "Процессоры", name: "AMD Ryzen 5 7600", price: 18000, img: "https://www.amd.com/system/files/2022-08/1564287-ryzen-5-pi-600x600.png" },
-            { id: 5, cat: "Накопители", name: "Kingston NV2 1TB", price: 5500, img: "https://media.kingston.com/images/products/NV2_main_600x600.png" },
-            { id: 6, cat: "Накопители", name: "Samsung 980 PRO 1TB", price: 9500, img: "https://images.samsung.com/is/image/samsung/p6pim/ru/mz-v8p1t0bw/gallery/ru-980-pro-nvme-m2-ssd-mz-v8p1t0bw-326938995?$650_519_PNG$" },
-            { id: 7, cat: "Блоки питания", name: "DeepCool PK750D", price: 6500, img: "https://ru.deepcool.com/download/png/15729_2557.png" },
-            { id: 8, cat: "Блоки питания", name: "Corsair RM850e Gold", price: 11500, img: "https://m.media-amazon.com/images/I/71YV6mE3fWL._AC_SX679_.jpg" }
+            { id: 1, cat: "Видеокарты", name: "ASUS Dual RTX 4060", price: 29500, img: "https://dlcdnwebimgs.asus.com/gain/bd4c98bc-2292-4265-855c-2329407c893f/" },
+            { id: 2, cat: "Процессоры", name: "Intel Core i5-13400F", price: 16500, img: "https://directcomputers.co.uk/cdn/shop/files/5926061ced9ec9b3172d78bdd15c2083_6562eb49-d0e8-446b-b869-9a16edda3c13.jpg?v=1764812263&width=1000" },
+            { id: 3, cat: "Видеокарты", name: "GIGABYTE RTX 4070", price: 56000, img: "https://static.gigabyte.com/StaticFile/Image/Global/30912d1bab19421f7acffd625ad70d02/Product/34885/png/400" },
+            { id: 4, cat: "Процессоры", name: "AMD Ryzen 5 7600", price: 18000, img: "https://sourceit.com.sg/cdn/shop/products/amd-ryzen-5-7600-36-ghz-six-core-am5-processor-amd-100-100001015box-478207_580x.jpg?v=1704884919" },
+            { id: 5, cat: "Накопители", name: "Kingston NV2 1TB", price: 5500, img: "https://i5.walmartimages.com/asr/ec81ae75-085f-4cc7-8f8f-f1358052f138.8f3c8867a83d1b686928e9bf8a26b77c.jpeg" },
+            { id: 6, cat: "Накопители", name: "Samsung 980 PRO 1TB", price: 9500, img: "https://images.samsung.com/is/image/samsung/p6pim/us/mz-v8p1t0b-am/gallery/us-980-pro-nvme-m2-ssd-mz-v8p1t0b-am-550536413?$product-details-jpg$" },
+            { id: 7, cat: "Блоки питания", name: "DeepCool PK750D", price: 6500, img: "https://cdn.deepcool.com/public/ProductFile/DEEPCOOL/PowerSupplyUnits/PK750D/Gallery/365X365/04.jpg?fm=webp&q=60" },
+            { id: 8, cat: "Блоки питания", name: "Corsair RM850e Gold", price: 11500, img: "https://i5.walmartimages.com/seo/CORSAIR-RMe-Series-RM850e-Fully-Modular-80Plus-Gold-ATX-Power-Supply_e3fae0d3-43ca-4de0-b991-a4f7f4929e92.1201fd603c2d133a3293a8408a2f7ece.png" }
         ];
 
         let cart = [];
@@ -200,7 +201,7 @@
             const grid = document.getElementById('productGrid');
             grid.innerHTML = items.map(p => `
                 <div class="card">
-                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Error'"></div>
                     <div class="c-cat">${p.cat}</div>
                     <div class="c-title">${p.name}</div>
                     <div class="c-price">${p.price.toLocaleString()} сом</div>
@@ -253,7 +254,7 @@
                 summary.style.display = 'block';
                 list.innerHTML = cart.map((p, i) => `
                     <div class="cart-item">
-                        <img src="${p.img}" class="cart-img">
+                        <img src="${p.img}" class="cart-img" onerror="this.src='https://via.placeholder.com/100x100?text=Err'">
                         <div class="cart-info">
                             <h4>${p.name}</h4>
                             <p style="color: var(--accent)">${p.price.toLocaleString()} сом</p>
@@ -289,6 +290,14 @@
                 showTab('home');
             }
             closeModal();
+        }
+
+        // Закрытие модалки при клике вне окна
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target == modal) {
+                closeModal();
+            }
         }
 
         // Старт
